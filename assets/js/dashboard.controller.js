@@ -24,3 +24,7 @@ app.controller('dashboardWidget03Ctrl', ['$scope', function($scope){
 	    [28, 48, 40, 19, 86, 27, 90]
 	  ];
 	}]);
+app.controller('dashboardWidget04Ctrl', ['$scope', function($scope){
+    $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"];
+    $scope.data = [300, 500, 100, 40, 120];
+	}]);
