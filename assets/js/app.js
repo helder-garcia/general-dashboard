@@ -1,4 +1,4 @@
-var app = angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'chart.js']);
+var app = angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngAnimate', 'chart.js', 'vAccordion']);
 app.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/dashboard', {
 		templateUrl : 'assets/html/dashboard.html',

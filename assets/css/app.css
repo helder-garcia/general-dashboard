@@ -3,3 +3,34 @@
   font-weight: inherit;
   margin: inherit;
 }
+.nav ul {
+  list-style: none;
+  background-color: #444;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+}
+.nav li {
+  font-family: 'Oswald', sans-serif;
+  font-size: 1em;
+  line-height: 30px;
+  height: 30px;
+}
+ 
+.nav a {
+  text-decoration: none;
+  color: #444;
+  display: block;
+  transition: .3s color;
+}
+ 
+.nav a:hover {
+	color: #44f;
+  background-color: transparent;
+}
+ 
+.nav a.active {
+  background-color: #fff;
+  color: #444;
+  cursor: default;
+}

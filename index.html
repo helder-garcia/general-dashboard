@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
     <link rel="stylesheet" href="assets/css/app.css">
     <link rel="stylesheet" href="node_modules/angular-chart.js/dist/angular-chart.min.css">
+    <link rel="stylesheet" href="node_modules/v-accordion/dist/v-accordion.min.css">
     <meta name="viewport" content="initial-scale=1" />
   </head>
   <body layout="column" ng-controller="AppCtrl">
@@ -18,18 +19,56 @@
         <h1>SERPRO - TSM Monitor</h1>
       </div>
     </md-toolbar>
-    <div layout="row" class="md-theme-accent" flex>
+    <div layout="row" flex>
         <md-sidenav layout="column" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
 
-      <md-content layout-padding>
-        <md-button ng-click="close()" class="md-primary" hide-gt-md>
-          Close Sidenav Left
-        </md-button>
-        <p hide-md show-gt-md>
-          This sidenav is locked open on your device. To go back to the default behavior,
-          narrow your display.
-        </p>
-      </md-content>
+	      <md-content layout-padding>
+	        <p hide-md show-gt-md>
+	          This sidenav is locked open on your device. To go back to the default behavior,
+	          narrow your display.
+	        </p>
+<v-accordion class="vAccordion--default">
+
+  <!-- add expanded attribute to open the section -->
+  <v-pane expanded>
+    <v-pane-header>
+      Health Panel
+    </v-pane-header>
+    <v-pane-content>
+    <ul class="nav">
+    	<li><a ng-href="#">Dashboard</a></li>
+    	<li><a ng-href="#">Alerts</a></li>
+    	<li><a ng-href="#">Reports</a></li>
+    </ul>
+    </v-pane-content>
+  </v-pane>
+
+  <v-pane>
+    <v-pane-header>
+      Administrators
+    </v-pane-header>
+    <v-pane-content>
+      Profiles
+      Activities
+      Inactive Admins
+      Easy Passwords Hunter
+    </v-pane-content>
+  </v-pane>
+  
+  <v-pane>
+    <v-pane-header>
+      Resource Utilization
+    </v-pane-header>
+    <v-pane-content>
+      Drives
+      Tapes
+      Disk
+      Network
+    </v-pane-content>
+  </v-pane>
+
+</v-accordion>
+	      </md-content>
 
         </md-sidenav>
         <div layout="column" flex id="content">
@@ -46,6 +85,7 @@
 	<script src="node_modules/angular-route/angular-route.min.js"></script>
 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
 	<script src="node_modules/angular-chart.js/dist/angular-chart.js"></script>
+	<script src="node_modules/v-accordion/dist/v-accordion.min.js"></script>	
 	<script src="assets/js/app.js"></script>
 	<script src="assets/js/dashboard.controller.js"></script>
   </body>
