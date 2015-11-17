@@ -1,4 +1,4 @@
-var app = angular.module('StarterApp', ['ngMaterial', 'ngRoute', 'ngAnimate', 'chart.js', 'vAccordion']);
+var app = angular.module('StarterApp', ['md.data.table', 'ngMaterial', 'ngRoute', 'ngAnimate', 'chart.js', 'vAccordion']);
 app.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/dashboard', {
 		templateUrl : 'assets/html/dashboard.html',
@@ -6,7 +6,7 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/nodes', {
 		templateUrl : 'assets/html/node-list.html',
 		controller : 'NodeListController'
-	}).when('/nodes/:nodeId', {
+	}).when('/noes/:nodeId', {
 		templateUrl : 'partials/node-detail.html',
 		controller : 'NodeDetailCtrl'
 	}).when('/', {
