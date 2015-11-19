@@ -25,3 +25,19 @@ app.controller('AppCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
     $mdSidenav(menuId).toggle();
   };
 }]);
+app.factory('Data', function ($http, $q) {
+    return {
+        ajaxItems: function () {
+            var deferred = $q.defer();
+            setTimeout(function() {
+            $http.get("http://prcdsrvv0477:1337/Node")
+                .success(function (data, status, headers, config) {
+                    deferred.resolve(data);
+                }).error(function (data, status, headers, config) {
+                    deferred.reject(data);
+                });
+            }, 1000);
+            return deferred.promise;
+        }
+    }
+});
