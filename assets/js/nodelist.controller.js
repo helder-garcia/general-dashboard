@@ -26,6 +26,8 @@ app.controller('NodeListController', [
 			}, {
 				name : 'isLocked'
 			}, {
+				name : 'lastAccTime'
+			}, {
 				name : 'maxNummp',
 				numeric : true,
 				orderBy : 'maxNummp'
