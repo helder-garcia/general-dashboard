@@ -19,12 +19,13 @@
 	</thead>
 	<tbody>
 		<tr md-auto-select 
-			ng-repeat="node in nodes.data | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
-			<td>{{node.nodeName}}</td>
-			<td>{{node.domainName}}</td>
-			<td>{{node.archDelete}}</td>
-			<td>{{node.backDelete}}</td>
-			<td>{{node.isLocked}}</td>
+			ng-repeat="node in nodes.data | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit"
+			style="text-transform:capitalize;">
+			<td>{{node.nodeName.toLowerCase()}}</td>
+			<td>{{node.domainName.toLowerCase()}}</td>
+			<td>{{node.archDelete.toLowerCase()}}</td>
+			<td>{{node.backDelete.toLowerCase()}}</td>
+			<td>{{node.isLocked.toLowerCase()}}</td>
 			<td>{{node.lastAccTime | date:'dd/MM/yyyy @ h:mma'}}</td>
 			<td>{{node.maxNummp}}</td>
 		</tr>
