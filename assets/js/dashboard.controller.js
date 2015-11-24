@@ -32,7 +32,7 @@ app.controller('dashboardWidget01Ctrl', ['$scope', 'driveData', '$interval', fun
     };
     $interval(function(){
     	$scope.get();
-    }, 5000);
+    }, 10000);
 	  //$scope.labels = ["A", "B"];
 	  
 	  //$scope.data = [
