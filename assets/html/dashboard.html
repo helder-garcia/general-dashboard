@@ -5,7 +5,7 @@
 	<div flex ng-controller="dashboardWidget01Ctrl">
 		<canvas id="line" class="chart chart-line" chart-data="data"
 			chart-labels="labels" chart-legend="true" chart-series="series"
-			chart-click="onClick">
+			chart-click="onClick" options="options">
 		</canvas>
 	</div>
 	<div flex ng-controller="dashboardWidget02Ctrl">
@@ -22,6 +22,16 @@
 	</div>
 	<div flex ng-controller="dashboardWidget04Ctrl">
 		<canvas id="polar-area" class="chart chart-pie"
+				chart-data="data" chart-labels="labels">
+		</canvas>
+	</div>
+</div>
+<div layout="row" layout-sm="column" layout-padding="10px" layout-wrap>
+	<div flex ng-controller="dashboardWidget05Ctrl" id="container">
+		<canvas id="ticks" class="chart chart-line chart-xl" data="data" options="options" labels="labels"></canvas>
+	</div>
+	<div flex ng-controller="dashboardWidget02Ctrl">
+		<canvas id="polar-area" class="chart chart-polar-area"
 				chart-data="data" chart-labels="labels">
 		</canvas>
 	</div>

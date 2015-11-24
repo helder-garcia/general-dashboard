@@ -1,11 +1,11 @@
 var app = angular.module('StarterApp');
 app.controller('NodeListController', [
-        'Data',
+        'nodeData',
 		'$http',
 		'$q',
 		'$timeout',
 		'$scope',
-		function(Data, $http, $q, $timeout, $scope) {
+		function(nodeData, $http, $q, $timeout, $scope) {
 			'use strict';
 			$scope.selected = [];
 			$scope.query = {
@@ -33,7 +33,7 @@ app.controller('NodeListController', [
 				orderBy : 'maxNummp'
 			} ];
 		    $scope.get = function () {
-		        $scope.items = Data.ajaxItems();
+		        $scope.items = nodeData.ajaxItems();
 		        //the model returns a promise and THEN items
 		        $scope.items.then(function (items) {
 		            $scope.nodes = items;

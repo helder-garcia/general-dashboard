@@ -25,12 +25,30 @@ app.controller('AppCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
     $mdSidenav(menuId).toggle();
   };
 }]);
-app.factory('Data', function ($http, $q) {
+app.factory('nodeData', function ($http, $q) {
     return {
         ajaxItems: function () {
             var deferred = $q.defer();
             setTimeout(function() {
-            $http.get("http://10.200.84.205:1337/Node")
+            //$http.get("http://10.200.84.205:1337/Node")
+            	$http.get("http://localhost:1337/Node")
+                .success(function (data, status, headers, config) {
+                    deferred.resolve(data);
+                }).error(function (data, status, headers, config) {
+                    deferred.reject(data);
+                });
+            }, 1000);
+            return deferred.promise;
+        }
+    }
+});
+app.factory('driveData', function ($http, $q) {
+    return {
+        ajaxItems: function () {
+            var deferred = $q.defer();
+            setTimeout(function() {
+            //$http.get("http://10.200.84.205:1337/Node")
+            	$http.get("http://localhost:1337/Drive")
                 .success(function (data, status, headers, config) {
                     deferred.resolve(data);
                 }).error(function (data, status, headers, config) {
