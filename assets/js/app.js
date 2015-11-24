@@ -30,8 +30,8 @@ app.factory('nodeData', function ($http, $q) {
         ajaxItems: function () {
             var deferred = $q.defer();
             setTimeout(function() {
-            //$http.get("http://10.200.84.205:1337/Node")
-            	$http.get("http://localhost:1337/Node")
+            $http.get("http://10.200.84.205:1337/Node")
+            	//$http.get("http://localhost:1337/Node")
                 .success(function (data, status, headers, config) {
                     deferred.resolve(data);
                 }).error(function (data, status, headers, config) {
