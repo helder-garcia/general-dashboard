@@ -6,7 +6,10 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/nodes', {
 		templateUrl : 'assets/html/node-list.html',
 		controller : 'NodeListController'
-	}).when('/noes/:nodeId', {
+	}).when('/instances', {
+		templateUrl : 'assets/html/instance-list.html',
+		controller : 'InstanceListController'
+	}).when('/nodes/:nodeId', {
 		templateUrl : 'partials/node-detail.html',
 		controller : 'NodeDetailCtrl'
 	}).when('/', {
@@ -48,6 +51,23 @@ app.factory('driveData', function ($http, $q) {
             var deferred = $q.defer();
             setTimeout(function() {
             $http.get("http://10.200.84.205:1337/Drive")
+            	//$http.get("http://localhost:1337/Drive")
+                .success(function (data, status, headers, config) {
+                    deferred.resolve(data);
+                }).error(function (data, status, headers, config) {
+                    deferred.reject(data);
+                });
+            }, 1000);
+            return deferred.promise;
+        }
+    }
+});
+app.factory('instanceData', function ($http, $q) {
+    return {
+        ajaxItems: function () {
+            var deferred = $q.defer();
+            setTimeout(function() {
+            $http.get("http://10.200.84.205:1337/Instance")
             	//$http.get("http://localhost:1337/Drive")
                 .success(function (data, status, headers, config) {
                     deferred.resolve(data);
