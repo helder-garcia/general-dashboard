@@ -1,3 +1,22 @@
+  <md-fab-toolbar md-open="instanceToolBar.isOpen" count="instanceToolBar.count"
+                  md-direction="{{instanceToolBar.selectedDirection}}">
+    <md-fab-trigger class="align-with-text">
+      <md-button aria-label="menu" class="md-fab">
+        <md-icon class="material-icons md-light">menu</md-icon>
+      </md-button>
+    </md-fab-trigger>
+    <md-toolbar>
+      <md-fab-actions class="md-toolbar-tools">
+        <md-button aria-label="comment" class="md-icon-button">
+	        <md-icon class="material-icons md-light">visibility</md-icon>
+        </md-button>
+        <md-button aria-label="comment" class="md-icon-button">
+	        <md-icon class="material-icons md-light">visibility_off</md-icon>
+        </md-button>
+      </md-fab-actions>
+    </md-toolbar>
+  </md-fab-toolbar>
+
 <md-data-table-toolbar ng-show="!selected.length">
 <h2 class="md-title">INSTANCES</h2>
 </md-data-table-toolbar>
@@ -21,10 +40,19 @@
 		<tr md-auto-select 
 			ng-repeat="instance in instances.data | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit"
 			style="text-transform:capitalize;">
-			<td>{{instance.instanceName.toLowerCase()}}</td>
-			<td>{{instance.IpAddress.toLowerCase()}}</td>
-			<td>{{instance.IpPort.toLowerCase()}}</td>
-			<td>{{instance.serverName.toLowerCase()}}</td>
+			<td>{{instance.instanceName.toUpperCase()}}</td>
+			<td>{{instance.hostingLocation.toUpperCase()}}</td>
+			<td>{{instance.active}}</td>
+			<td>{{instance.reservedInstance}}</td>
+			<td>{{instance.nodesCount}}</td>
+			<td>
+				<md-button aria-label="comment" class="md-icon-button">
+					<md-icon class="material-icons md-dark">mode_edit</md-icon>
+				</md-button>
+				<md-button aria-label="comment" class="md-icon-button">
+					<md-icon class="material-icons md-dark">delete</md-icon>
+				</md-button>
+			</td>
 		</tr>
 	</tbody>
 </table>

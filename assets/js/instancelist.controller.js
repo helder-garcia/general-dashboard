@@ -7,23 +7,35 @@ app.controller('InstanceListController', [
 		'$scope',
 		function(instanceData, $http, $q, $timeout, $scope) {
 			'use strict';
+		      $scope.isOpen = false;
+		      $scope.instanceToolBar = {
+		        isOpen: false,
+		        count: 0,
+		        selectedDirection: 'left'
+		      };
 			$scope.selected = [];
 			$scope.query = {
 				order : 'instanceName',
-				limit : 5,
+				limit : 10,
 				page : 1
 			};
 			$scope.columns = [ {
-				name : 'instanceName',
+				name : 'Nome',
 				orderBy : 'instanceName'
 			}, {
-				name : 'IpAddress'
+				name : 'Localização',
+				orderBy : 'hostingLocation'
 			}, {
-				name : 'IpPort'
+				name : 'Ativa'
 			}, {
-				name : 'serverName',
-				orderBy : 'serverName'
-			} ];
+				name : 'Reserva'
+			}, {
+				name : 'Nodes',
+				orderBy : 'nodesCount'
+			}, {
+				name : 'Ação'
+			} 
+			];
 		    $scope.get = function () {
 		        $scope.items = instanceData.ajaxItems();
 		        //the model returns a promise and THEN items

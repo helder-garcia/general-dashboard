@@ -67,7 +67,7 @@ app.factory('instanceData', function ($http, $q) {
         ajaxItems: function () {
             var deferred = $q.defer();
             setTimeout(function() {
-            $http.get("http://10.200.84.205:1337/Instance")
+            $http.get("http://wstsm.supcd.serpronet.serpro:1337/Instance")
             	//$http.get("http://localhost:1337/Drive")
                 .success(function (data, status, headers, config) {
                     deferred.resolve(data);
