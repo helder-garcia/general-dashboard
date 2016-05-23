@@ -9,6 +9,10 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/instances', {
 		templateUrl : 'assets/html/instance-list.html',
 		controller : 'InstanceListController'
+	}).when('/instances/:id/edit', {
+		templateUrl : 'assets/html/instance-edit.html',
+		controller : 'InstanceController',
+		method : 'edit'
 	}).when('/nodes/:nodeId', {
 		templateUrl : 'partials/node-detail.html',
 		controller : 'NodeDetailCtrl'

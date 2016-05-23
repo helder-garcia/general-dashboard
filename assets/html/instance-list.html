@@ -46,12 +46,16 @@
 			<td>{{instance.reservedInstance}}</td>
 			<td>{{instance.nodesCount}}</td>
 			<td>
-				<md-button aria-label="comment" class="md-icon-button">
-					<md-icon class="material-icons md-dark">mode_edit</md-icon>
-				</md-button>
-				<md-button aria-label="comment" class="md-icon-button">
-					<md-icon class="material-icons md-dark">delete</md-icon>
-				</md-button>
+				<a ng-href="#/instances/{{instance.id}}/edit">
+					<md-button aria-label="comment" class="md-icon-button">				
+						<md-icon class="material-icons md-dark">mode_edit</md-icon>				
+					</md-button>
+				</a>
+				<a ng-href="#/instances/{{instance.id}}/edit">
+					<md-button aria-label="comment" class="md-icon-button">
+						<md-icon class="material-icons md-dark">delete</md-icon>
+					</md-button>
+				</a>
 			</td>
 		</tr>
 	</tbody>

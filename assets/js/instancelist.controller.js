@@ -19,7 +19,8 @@ app.controller('InstanceListController', [
 				limit : 10,
 				page : 1
 			};
-			$scope.columns = [ {
+			$scope.columns = [
+			{
 				name : 'Nome',
 				orderBy : 'instanceName'
 			}, {
