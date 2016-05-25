@@ -1,0 +1,41 @@
+<form name="userForm">
+	<div layout-gt-sm="row">
+	    <md-input-container class="md-block" flex-gt-sm>
+	      <label>Nome</label>
+	      <input ng-model="instance.data[0].instanceName" type="text" />
+	    </md-input-container>
+	    <md-input-container class="md-block" flex-gt-sm>
+	      <label>Porta</label>
+	      <input ng-model="instance.data[0].instancePort" type="text" />
+	    </md-input-container>
+	</div>
+	<div layout-gt-sm="row">
+		<md-input-container>
+			<label>Localização</label>
+			<md-select ng-model="instance.data[0].hostingLocation">
+				<md-option ng-repeat="location in locations" value="{{location.abbrev.toLowerCase()}}">{{location.abbrev.toUpperCase()}} </md-option>
+			</md-select> 
+		</md-input-container>
+	    <md-input-container class="md-block" flex-gt-sm>
+	      <label>Máscara de Grupo</label>
+	      <input ng-model="instance.data[0].groupMask" type="text" />
+	    </md-input-container>
+    </div>
+	<div layout-gt-sm="row">
+		<md-input-container class="md-block" flex-gt-sm>
+			<md-checkbox ng-model="instance.data[0].reservedInstance" aria-label="Reservada">Reservada</md-checkbox>
+		</md-input-container>
+    </div>
+	<div layout-gt-sm="row">
+	    <md-input-container class="md-block" flex-gt-sm>
+	      <label>Código de Reserva</label>
+	      <input ng-model="instance.data[0].reservationCode" type="text" />
+	    </md-input-container>
+    </div>
+    <h3>Endereços IPv4</h3>
+	<div layout-gt-sm="row" ng-repeat="item in instance.data[0].tcpV4ServerAddresses">
+		<md-input-container class="md-block" flex-gt-sm>
+			<input ng-model="item" type="text" />
+		</md-input-container>
+	</div>
+</form>

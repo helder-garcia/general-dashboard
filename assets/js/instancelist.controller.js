@@ -1,12 +1,14 @@
 var app = angular.module('StarterApp');
 app.controller('InstanceListController', [
+        'Instance',
         'instanceData',
 		'$http',
 		'$q',
 		'$timeout',
 		'$scope',
-		function(instanceData, $http, $q, $timeout, $scope) {
+		function(Instance, instanceData, $http, $q, $timeout, $scope) {
 			'use strict';
+			
 		      $scope.isOpen = false;
 		      $scope.instanceToolBar = {
 		        isOpen: false,
@@ -37,6 +39,8 @@ app.controller('InstanceListController', [
 				name : 'Ação'
 			} 
 			];
+			$scope.instances = Instance.query();
+			/*
 		    $scope.get = function () {
 		        $scope.items = instanceData.ajaxItems();
 		        //the model returns a promise and THEN items
@@ -46,7 +50,8 @@ app.controller('InstanceListController', [
 		        });
 		    };
 		    $scope.get();
-
+			*/
+			
 			$scope.onpagechange = function(page, limit) {
 				var deferred = $q.defer();
 				$timeout(function() {
