@@ -1,4 +1,4 @@
-var app = angular.module('StarterApp', ['md.data.table', 'ngMaterial', 'ngRoute', 'ngAnimate', 'chart.js', 'vAccordion']);
+var app = angular.module('StarterApp', ['md.data.table', 'ngMaterial', 'ngRoute', 'ngResource', 'ngAnimate', 'chart.js', 'vAccordion']);
 app.config([ '$routeProvider', function($routeProvider) {
 	$routeProvider.when('/dashboard', {
 		templateUrl : 'assets/html/dashboard.html',
@@ -11,8 +11,7 @@ app.config([ '$routeProvider', function($routeProvider) {
 		controller : 'InstanceListController'
 	}).when('/instances/:id/edit', {
 		templateUrl : 'assets/html/instance-edit.html',
-		controller : 'InstanceController',
-		method : 'edit'
+		controller : 'InstanceController'
 	}).when('/nodes/:nodeId', {
 		templateUrl : 'partials/node-detail.html',
 		controller : 'NodeDetailCtrl'
@@ -27,6 +26,10 @@ app.config(function($mdThemingProvider) {
 	    .primaryPalette('light-blue')
 	    .accentPalette('blue-grey');
 	});
+app.config(['$resourceProvider', function($resourceProvider) {
+	  // Don't strip trailing slashes from calculated URLs
+	  $resourceProvider.defaults.stripTrailingSlashes = false;
+	}]);
 app.controller('AppCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
   $scope.toggleSidenav = function(menuId) {
     $mdSidenav(menuId).toggle();
@@ -82,4 +85,11 @@ app.factory('instanceData', function ($http, $q) {
             return deferred.promise;
         }
     }
+});
+app.factory('Instance', function ($resource, $timeout, $q) {
+	var resource = $resource('http://wstsm.supcd.serpronet.serpro:1337/Instance/:id', null, {
+		'update': { method: 'PUT'},
+		'query': { method:'GET', isArray:false}
+	});
+	return resource;
 });
