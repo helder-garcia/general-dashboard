@@ -9,6 +9,9 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/instances', {
 		templateUrl : 'assets/html/instance-list.html',
 		controller : 'InstanceListController'
+	}).when('/libscratch', {
+		templateUrl : 'assets/html/libscratch-list.html',
+		controller : 'LibScratchController'
 	}).when('/instances/:id/edit', {
 		templateUrl : 'assets/html/instance-edit.html',
 		controller : 'InstanceController',
@@ -32,6 +35,7 @@ app.controller('AppCtrl', ['$scope', '$mdSidenav', function($scope, $mdSidenav){
     $mdSidenav(menuId).toggle();
   };
 }]);
+
 app.factory('nodeData', function ($http, $q) {
     return {
         ajaxItems: function () {
@@ -71,8 +75,25 @@ app.factory('instanceData', function ($http, $q) {
         ajaxItems: function () {
             var deferred = $q.defer();
             setTimeout(function() {
-            $http.get("http://wstsm.supcd.serpronet.serpro:1337/Instance")
-            	//$http.get("http://localhost:1337/Drive")
+            //$http.get("http://wstsm.supcd.serpronet.serpro:1337/Instance")
+            $http.get("http://localhost:1337/Instance")
+                .success(function (data, status, headers, config) {
+                    deferred.resolve(data);
+                }).error(function (data, status, headers, config) {
+                    deferred.reject(data);
+                });
+            }, 1000);
+            return deferred.promise;
+        }
+    }
+});
+app.factory('libScratchData', function ($http, $q) {
+    return {
+        ajaxItems: function () {
+            var deferred = $q.defer();
+            setTimeout(function() {
+            //$http.get("http://wstsm.supcd.serpronet.serpro:1337/LibScratch")
+            $http.get("http://localhost:1337/LibScratch")
                 .success(function (data, status, headers, config) {
                     deferred.resolve(data);
                 }).error(function (data, status, headers, config) {

@@ -12,11 +12,11 @@
 	class="material-icons md-light">visibility_off</md-icon> </md-button> </md-fab-actions> </md-toolbar> </md-fab-toolbar>
 
 <md-data-table-toolbar ng-show="!selected.length">
-<h2 class="md-title">INSTANCES</h2>
+<h2 class="md-title">LIBRARIES SCRATCH</h2>
 </md-data-table-toolbar>
 <md-data-table-toolbar class="alternate" ng-show="selected.length">
-<div>{{selected.length}} {{selected.length > 1 ? 'instances' :
-	'instance'}} selecionado</div>
+<div>{{selected.length}} {{selected.length > 1 ? 'libScratches' :
+	'libScratch'}} selecionado</div>
 </md-data-table-toolbar>
 <md-data-table-container>
 <table md-data-table md-row-select="selected" md-progress="deferred">
@@ -32,25 +32,15 @@
 	</thead>
 	<tbody>
 		<tr md-auto-select
-			ng-repeat="instance in instances.data | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit"
+			ng-repeat="libScratch in libScratches.data | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit"
 			style="text-transform: capitalize;">
-			<td>{{instance.instanceName.toUpperCase()}}</td>
-			<td>{{instance.hostingLocation.toUpperCase()}}</td>
-			<td>{{instance.active}}</td>
-			<td>{{instance.reservedInstance}}</td>
-			<td>{{instance.nodesCount}}</td>
-			<td><a ng-href="#/instances/{{instance.id}}/edit"> <md-button
-						aria-label="comment" class="md-icon-button"> <md-icon
-						class="material-icons md-dark">mode_edit</md-icon> </md-button>
-			</a> <a ng-href="#/instances/{{instance.id}}/edit"> <md-button
-						aria-label="comment" class="md-icon-button"> <md-icon
-						class="material-icons md-dark">delete</md-icon> </md-button>
-			</a></td>
+			<td>{{libScratch.libName.toUpperCase()}}</td>
+			<td>{{libScratch.scratchVol}}</td>
 		</tr>
 	</tbody>
 </table>
 </md-data-table-container>
 <md-data-table-pagination md-limit="query.limit" md-page="query.page"
-	md-total="{{instances.count}}" md-trigger="onpagechange"></md-data-table-pagination>
+	md-total="{{libScratches.count}}" md-trigger="onpagechange"></md-data-table-pagination>
 <md-data-table-toolbar> <md-button
 	ng-click="loadStuff()">Trigger Outside Event</md-button> </md-data-table-toolbar>
