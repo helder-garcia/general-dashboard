@@ -11,7 +11,13 @@ app.config([ '$routeProvider', function($routeProvider) {
 		controller : 'InstanceListController'
 	}).when('/libscratch', {
 		templateUrl : 'assets/html/libscratch-list.html',
-		controller : 'LibScratchController'
+		controller : 'LibScratchListController'
+	}).when('/nodesoccupancy', {
+		templateUrl : 'assets/html/nodes-occupancy-list.html',
+		controller : 'NodesOccupancyController'
+	}).when('/notaccessednodes', {
+		templateUrl : 'assets/html/not-accessed-nodes-list.html',
+		controller : 'NotAccessedNodesController'
 	}).when('/instances/:id/edit', {
 		templateUrl : 'assets/html/instance-edit.html',
 		controller : 'InstanceController'
@@ -90,25 +96,36 @@ app.factory('instanceData', function ($http, $q) {
         }
     }
 });
-app.factory('libScratchData', function ($http, $q) {
-    return {
-        ajaxItems: function () {
-            var deferred = $q.defer();
-            setTimeout(function() {
-            //$http.get("http://wstsm.supcd.serpronet.serpro:1337/LibScratch")
-            $http.get("http://localhost:1337/LibScratch")
-                .success(function (data, status, headers, config) {
-                    deferred.resolve(data);
-                }).error(function (data, status, headers, config) {
-                    deferred.reject(data);
-                });
-            }, 1000);
-            return deferred.promise;
-        }
-    }
-});
+
 app.factory('Instance', function ($resource, $timeout, $q) {
 	var resource = $resource('http://wstsm.supcd.serpronet.serpro:1337/Instance/:id', null, {
+		'update': { method: 'PUT'},
+		'query': { method:'GET', isArray:false}
+	});
+	return resource;
+});
+
+app.factory('LibScratch', function ($resource, $timeout, $q) {
+	//var resource = $resource('http://wstsm.supcd.serpronet.serpro:1337/libscratch/:id', null, {
+	var resource = $resource('http://localhost:1337/libscratch/:id', null, {
+		'update': { method: 'PUT'},
+		'query': { method:'GET', isArray:false}
+	});
+	return resource;
+});
+
+app.factory('NodesOccupancy', function ($resource, $timeout, $q) {
+	//var resource = $resource('http://wstsm.supcd.serpronet.serpro:1337/libscratch/:id', null, {
+	var resource = $resource('http://localhost:1337/nodesoccupancy/:id', null, {
+		'update': { method: 'PUT'},
+		'query': { method:'GET', isArray:false}
+	});
+	return resource;
+});
+
+app.factory('NotAccessedNodes', function ($resource, $timeout, $q) {
+	//var resource = $resource('http://wstsm.supcd.serpronet.serpro:1337/libscratch/:id', null, {
+	var resource = $resource('http://localhost:1337/notaccessednodes/:id', null, {
 		'update': { method: 'PUT'},
 		'query': { method:'GET', isArray:false}
 	});

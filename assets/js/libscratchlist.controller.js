@@ -1,14 +1,14 @@
 var app = angular.module('StarterApp');
 app.controller('LibScratchListController', [
-        'libScratchData',
+        'LibScratch',
 		'$http',
 		'$q',
 		'$timeout',
 		'$scope',
-		function(libScratchData, $http, $q, $timeout, $scope) {
+		function(LibScratch, $http, $q, $timeout, $scope) {
 			'use strict';
 		      $scope.isOpen = false;
-		      $scope.instanceToolBar = {
+		      $scope.libScratchToolBar = {
 		        isOpen: false,
 		        count: 0,
 		        selectedDirection: 'left'
@@ -25,18 +25,11 @@ app.controller('LibScratchListController', [
 				orderBy : 'libName'
 			}, {
 				name : 'Scratch',
-				orderBy : 'scratchVols'
+				orderBy : 'scratch'
 			} 
 			];
-		    $scope.get = function () {
-		        $scope.items = libScratchData.ajaxItems();
-		        //the model returns a promise and THEN items
-		        $scope.items.then(function (items) {
-		            $scope.libScratches = items;
-		        }, function (status) {
-		        });
-		    };
-		    $scope.get();
+			
+			$scope.scratchVols = LibScratch.query();
 
 			$scope.onpagechange = function(page, limit) {
 				var deferred = $q.defer();

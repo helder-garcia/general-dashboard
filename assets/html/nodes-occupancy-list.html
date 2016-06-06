@@ -1,7 +1,7 @@
 
-<md-fab-toolbar md-open="instanceToolBar.isOpen"
-	count="instanceToolBar.count"
-	md-direction="{{instanceToolBar.selectedDirection}}">
+<md-fab-toolbar md-open="nodesOccupancyToolBar.isOpen"
+	count="nodesOccupancyToolBar.count"
+	md-direction="{{nodesOccupancyToolBar.selectedDirection}}">
 <md-fab-trigger class="align-with-text"> <md-button
 	aria-label="menu" class="md-fab"> <md-icon
 	class="material-icons md-light">menu</md-icon> </md-button> </md-fab-trigger> <md-toolbar>
@@ -15,8 +15,8 @@
 <h2 class="md-title">NODES OCCUPANCY</h2>
 </md-data-table-toolbar>
 <md-data-table-toolbar class="alternate" ng-show="selected.length">
-<div>{{selected.length}} {{selected.length > 1 ? 'instances' :
-	'instance'}} selecionado</div>
+<div>{{selected.length}} {{selected.length > 1 ? 'nodes' :
+	'nodes'}} selecionado</div>
 </md-data-table-toolbar>
 <md-data-table-container>
 <table md-data-table md-row-select="selected" md-progress="deferred">
@@ -32,25 +32,16 @@
 	</thead>
 	<tbody>
 		<tr md-auto-select
-			ng-repeat="instance in instances.data | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit"
+			ng-repeat="node in nodes.data | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit"
 			style="text-transform: capitalize;">
-			<td>{{instance.instanceName.toUpperCase()}}</td>
-			<td>{{instance.hostingLocation.toUpperCase()}}</td>
-			<td>{{instance.active}}</td>
-			<td>{{instance.reservedInstance}}</td>
-			<td>{{instance.nodesCount}}</td>
-			<td><a ng-href="#/instances/{{instance.id}}/edit"> <md-button
-						aria-label="comment" class="md-icon-button"> <md-icon
-						class="material-icons md-dark">mode_edit</md-icon> </md-button>
-			</a> <a ng-href="#/instances/{{instance.id}}/edit"> <md-button
-						aria-label="comment" class="md-icon-button"> <md-icon
-						class="material-icons md-dark">delete</md-icon> </md-button>
-			</a></td>
+			<td>{{node.nodeName.toUpperCase()}}</td>
+			<td>{{node.domainName.toUpperCase()}}</td>
+			<td>{{node.logicalGB}}</td>
 		</tr>
 	</tbody>
 </table>
 </md-data-table-container>
 <md-data-table-pagination md-limit="query.limit" md-page="query.page"
-	md-total="{{instances.count}}" md-trigger="onpagechange"></md-data-table-pagination>
+	md-total="{{nodes.count}}" md-trigger="onpagechange"></md-data-table-pagination>
 <md-data-table-toolbar> <md-button
 	ng-click="loadStuff()">Trigger Outside Event</md-button> </md-data-table-toolbar>

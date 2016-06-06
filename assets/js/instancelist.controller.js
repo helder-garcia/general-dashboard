@@ -26,12 +26,14 @@ app.controller('InstanceListController', [
 				name : 'Nome',
 				orderBy : 'instanceName'
 			}, {
+				name : 'Porta'
+			}, {
 				name : 'Localização',
 				orderBy : 'hostingLocation'
 			}, {
 				name : 'Ativa'
 			}, {
-				name : 'Reserva'
+				name : 'Reservada'
 			}, {
 				name : 'Nodes',
 				orderBy : 'nodesCount'

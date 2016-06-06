@@ -38,4 +38,10 @@
 			<input ng-model="item" type="text" />
 		</md-input-container>
 	</div>
+    <h3>Endereços IPv6</h3>
+	<div layout-gt-sm="row" ng-repeat="item in instance.data[0].tcpV6ServerAddresses">
+		<md-input-container class="md-block" flex-gt-sm>
+			<input ng-model="item" type="text" />
+		</md-input-container>
+	</div>
 </form>
