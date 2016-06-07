@@ -86,3 +86,55 @@
   color: #444;
   cursor: default;
 }
+
+md-card {
+  -webkit-flex: 0 0 auto;
+  -ms-flex: 0 0 auto;
+  flex: 0 0 auto;
+  position: relative;
+}
+
+md-toolbar.md-table-toolbar.ng-hide {
+  display: none;
+}
+
+md-toolbar.md-table-toolbar.alternate .md-toolbar-tools {
+  color: #1e88e5;
+  font-size: 16px;
+  background-color: #e3f2fd;
+}
+
+md-toolbar.md-table-toolbar form {
+  margin-left: 16px;
+}
+
+md-toolbar.md-table-toolbar form > input {
+  width: 100%;
+  margin: 0;
+  border: none;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+md-toolbar.md-table-toolbar form > input:focus {
+  outline: none;
+}
+
+input::-webkit-input-placeholder {
+  color: rgba(0, 0, 0, 0.26);
+  font-weight: 300;
+}
+
+input::-moz-placeholder {
+  color: rgba(0, 0, 0, 0.26);
+  font-weight: 300;
+}
+
+input:-ms-input-placeholder {
+  color: rgba(0, 0, 0, 0.26);
+  font-weight: 300;
+}
+
+input::input-placeholder {
+  color: rgba(0, 0, 0, 0.26);
+  font-weight: 300;
+}

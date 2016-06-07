@@ -15,21 +15,29 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', '$http', '$q'
 				limit : 10,
 				page : 1
 			};
-			$scope.columns = [ 
-			{
-				name : 'Node Name',
-				orderBy : 'nodeName'
-			}, {
-				name : 'Last Time Access',
-				orderBy : 'lastAccess'
-			}, {
-				name : 'Domain Name',
-				orderBy : 'domainName'
-			}, {
-				name : 'Logical GB',
-				orderBy : 'logicalGB'
-			} ];
-
+			$scope.filter = {
+			    options: {
+			        debounce: 500
+			    }
+			};
+			$scope.limitOptions = [5, 10, 15];
+			$scope.options = {
+					    rowSelection: true,
+					    multiSelect: false,
+					    autoSelect: true,
+					    decapitate: false,
+					    largeEditDialog: false,
+					    boundaryLinks: false,
+					    limitSelect: true,
+					    pageSelect: true
+			};			
+			$scope.removeFilter = function() {
+				$scope.filter.show = false;
+				$scope.filter.search = '';
+			    if($scope.filter.form.$dirty) {
+			        $scope.filter.form.$setPristine();
+			    }
+			};
 			$scope.nodes = NotAccessedNodes.query();
 
 			$scope.onpagechange = function(page, limit) {
