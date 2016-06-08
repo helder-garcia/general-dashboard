@@ -1,79 +1,61 @@
 var app = angular.module('StarterApp');
-app.controller('InstanceListController', [
-        'Instance',
-        'instanceData',
-		'$http',
-		'$q',
-		'$timeout',
-		'$scope',
-		function(Instance, instanceData, $http, $q, $timeout, $scope) {
+app.controller('InstanceListController', [ 'InstanceData', '$scope',
+		function(InstanceData, $scope) {
 			'use strict';
-			
-		      $scope.isOpen = false;
-		      $scope.instanceToolBar = {
-		        isOpen: false,
-		        count: 0,
-		        selectedDirection: 'left'
-		      };
+			var bookmark;
+
 			$scope.selected = [];
 			$scope.query = {
 				order : 'instanceName',
-				limit : 10,
+				limit : 5,
 				page : 1
 			};
-			$scope.columns = [
-			{
-				name : 'Nome',
-				orderBy : 'instanceName'
-			}, {
-				name : 'Porta'
-			}, {
-				name : 'Localização',
-				orderBy : 'hostingLocation'
-			}, {
-				name : 'Ativa'
-			}, {
-				name : 'Reservada'
-			}, {
-				name : 'Nodes',
-				orderBy : 'nodesCount'
-			}, {
-				name : 'Ação'
-			} 
-			];
-			$scope.instances = Instance.query();
-			/*
-		    $scope.get = function () {
-		        $scope.items = instanceData.ajaxItems();
-		        //the model returns a promise and THEN items
-		        $scope.items.then(function (items) {
-		            $scope.instances = items;
-		        }, function (status) {
-		        });
-		    };
-		    $scope.get();
-			*/
+			$scope.filter = {
+			    options: {
+			        debounce: 500
+			    }
+			};
 			
-			$scope.onpagechange = function(page, limit) {
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.resolve();
-				}, 2000);
-				return deferred.promise;
+			$scope.limitOptions = [5, 10, 15];
+			$scope.options = {
+					    rowSelection: true,
+					    multiSelect: true,
+					    autoSelect: true,
+					    decapitate: false,
+					    largeEditDialog: false,
+					    boundaryLinks: true,
+					    limitSelect: true,
+					    pageSelect: true
+			};			
+			$scope.removeFilter = function() {
+				$scope.filter.show = false;
+				$scope.filter.search = '';
+			    if($scope.filter.form.$dirty) {
+			        $scope.filter.form.$setPristine();
+			    }
 			};
-			$scope.loadStuff = function() {
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.reject();
-				}, 2000);
-				$scope.deferred = deferred.promise;
-			};
-			$scope.onorderchange = function(order) {
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.resolve();
-				}, 2000);
-				return deferred.promise;
-			};
+
+			  function success(data) {
+				    $scope.instances = data;
+				    console.log($scope.instances);
+				  };
+			  $scope.getInstances = function () {
+				    $scope.promise = InstanceData.instances.get({}, success).$promise;
+				  };
+				  $scope.$watch('filter.search', function (newValue, oldValue) {
+					    if(!oldValue) {
+					      bookmark = $scope.query.page;
+					    }
+					    
+					    if(newValue !== oldValue) {
+					      $scope.query.page = 1;
+					    }
+					    
+					    if(!newValue) {
+					      $scope.query.page = bookmark;
+					    }
+					    
+					    $scope.getInstances();
+					  });				  
 
 		} ]);
