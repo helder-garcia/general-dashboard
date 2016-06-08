@@ -1,14 +1,9 @@
 var app = angular.module('StarterApp');
-app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', '$http', '$q',
-		'$timeout', '$scope',
-		function(NotAccessedNodes, $http, $q, $timeout, $scope) {
+app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', '$scope',
+		function(NotAccessedNodes, $scope) {
 			'use strict';
-			$scope.isOpen = false;
-			$scope.nodesOccupancyToolBar = {
-				isOpen : false,
-				count : 0,
-				selectedDirection : 'left'
-			};
+			var bookmark;
+
 			$scope.selected = [];
 			$scope.query = {
 				order : 'nodeName',
@@ -20,14 +15,15 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', '$http', '$q'
 			        debounce: 500
 			    }
 			};
+			
 			$scope.limitOptions = [5, 10, 15];
 			$scope.options = {
 					    rowSelection: true,
-					    multiSelect: false,
+					    multiSelect: true,
 					    autoSelect: true,
 					    decapitate: false,
 					    largeEditDialog: false,
-					    boundaryLinks: false,
+					    boundaryLinks: true,
 					    limitSelect: true,
 					    pageSelect: true
 			};			
@@ -38,28 +34,27 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', '$http', '$q'
 			        $scope.filter.form.$setPristine();
 			    }
 			};
-			$scope.nodes = NotAccessedNodes.query();
-
-			$scope.onpagechange = function(page, limit) {
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.resolve();
-				}, 2000);
-				return deferred.promise;
-			};
-			$scope.loadStuff = function() {
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.reject();
-				}, 2000);
-				$scope.deferred = deferred.promise;
-			};
-			$scope.onorderchange = function(order) {
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.resolve();
-				}, 2000);
-				return deferred.promise;
-			};
+			//$scope.nodes = NotAccessedNodes.query();
+			  function success(nodes) {
+				    $scope.nodes = nodes;
+				  };
+			  $scope.getNodes = function () {
+				    $scope.promise = NotAccessedNodes.nodes.get($scope.query, success).$promise;
+				  };
+				  $scope.$watch('filter.search', function (newValue, oldValue) {
+					    if(!oldValue) {
+					      bookmark = $scope.query.page;
+					    }
+					    
+					    if(newValue !== oldValue) {
+					      $scope.query.page = 1;
+					    }
+					    
+					    if(!newValue) {
+					      $scope.query.page = bookmark;
+					    }
+					    
+					    $scope.getNodes();
+					  });				  
 
 		} ]);

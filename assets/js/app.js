@@ -123,11 +123,9 @@ app.factory('NodesOccupancy', function ($resource, $timeout, $q) {
 	return resource;
 });
 
-app.factory('NotAccessedNodes', function ($resource, $timeout, $q) {
-	//var resource = $resource('http://wstsm.supcd.serpronet.serpro:1337/libscratch/:id', null, {
-	var resource = $resource('http://localhost:1337/notaccessednodes/:id', null, {
-		'update': { method: 'PUT'},
-		'query': { method:'GET', isArray:false}
-	});
-	return resource;
-});
+app.factory('NotAccessedNodes', ['$resource', function ($resource) {
+	'use strict';
+	  return {
+		    nodes: $resource('http://localhost:1337/notaccessednodes/:id')
+		  };
+}]);
