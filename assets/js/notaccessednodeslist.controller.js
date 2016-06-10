@@ -1,11 +1,12 @@
 var app = angular.module('StarterApp');
-app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', '$scope',
-		function(NotAccessedNodes, $scope) {
+app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', 'InstanceData', '$scope',
+		function(NotAccessedNodes, InstanceData, $scope) {
 			'use strict';
 			var bookmark;
 
 			$scope.selected = [];
 			$scope.query = {
+				instanceName : 'TSMBSBBKP1500',
 				order : 'nodeName',
 				limit : 10,
 				page : 1
@@ -15,7 +16,10 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', '$scope',
 			        debounce: 500
 			    }
 			};
-			
+			$scope.nodes = {
+					count : 0,
+					data : []
+			};
 			$scope.limitOptions = [5, 10, 15];
 			$scope.options = {
 					    rowSelection: true,
@@ -35,13 +39,22 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', '$scope',
 			    }
 			};
 			//$scope.nodes = NotAccessedNodes.query();
-			  function success(nodes) {
-				    $scope.nodes = nodes;
-				  };
-			  $scope.getNodes = function () {
-				    $scope.promise = NotAccessedNodes.nodes.get($scope.query, success).$promise;
-				  };
-				  $scope.$watch('filter.search', function (newValue, oldValue) {
+			function success(nodes) {
+				    $scope.nodes.data = $scope.nodes.data.concat(nodes.data);
+				    $scope.nodes.count = $scope.nodes.data.length;
+			};
+			function processInstance(instances) {			
+				instances.data.forEach(function(instance) {
+					console.log(instance);
+					$scope.promise = NotAccessedNodes.nodes.get({instanceName: instance.instanceName}, success).$promise;
+		        });				
+
+				
+			};
+			$scope.getNodes = function () {		
+				$scope.ipromise = InstanceData.instances.get({active: 1, reservedInstance: 0}, processInstance).$ipromise;
+			};
+			$scope.$watch('filter.search', function (newValue, oldValue) {
 					    if(!oldValue) {
 					      bookmark = $scope.query.page;
 					    }
@@ -55,6 +68,6 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', '$scope',
 					    }
 					    
 					    $scope.getNodes();
-					  });				  
+			});				  
 
 		} ]);

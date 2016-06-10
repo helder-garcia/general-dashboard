@@ -11,6 +11,8 @@ app.controller('InstanceListController', [ 'InstanceData', '$scope',
 				page : 1
 			};
 			$scope.filter = {
+				instanceName : '',
+				domainName : '',
 			    options: {
 			        debounce: 500
 			    }

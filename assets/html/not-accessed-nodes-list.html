@@ -5,6 +5,16 @@
           <div class="md-toolbar-tools">
             <span>NODES LAST ACCESS</span>
             <div flex></div>
+			<div class="md-body-1" layout="column" layout-align="center center" ng-controller="InstanceFilterListController">
+			    <md-select placeholder="Instâncias: Todas" ng-model="instance" md-on-open="loadInstances()" style="min-width: 200px;">
+			      <md-option ng-value="instance" ng-repeat="instance in instances"><span class="md-caption">{{instance.instanceName}}</span></md-option>
+			    </md-select>
+			</div>
+			<div class="md-body-1" layout="column" layout-align="center center" ng-controller="DomainFilterListController">
+			    <md-select placeholder="Domínios: Todos" ng-model="filter.domainName" md-on-open="loadDomains()" style="min-width: 200px;">
+			      <md-option ng-value="domain.selectValue" ng-repeat="domain in domains"><span class="md-caption">{{domain.domainName}}</span></md-option>
+			    </md-select>
+			</div>
             <md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter_list">
             	<md-icon>filter_list</md-icon>
             </md-button>
@@ -32,15 +42,17 @@
               <tr md-row>
                 <th md-column md-order-by="nodeName"><span>Node Name</span></th>
                 <th md-column md-order-by="lastAccess"><span>Last Time Access</span></th>
+                <th md-column md-order-by="instanceName"><span>Instance Name</span></th>
                 <th md-column md-order-by="domainName"><span>Domain Name</span></th>
-                <th md-column md-numeric md-order-by="logicalGB"><span>Occupancy - Logical (GB)</span></th>
+                <th md-column md-numeric md-order-by="logicalGB"><span>Logical (GB)</span></th>
               </tr>
             </thead>
             <tbody md-body>
-              <tr md-row md-select="node" md-auto-select="options.autoSelect" ng-repeat="node in nodes.data | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
+              <tr md-row md-select="node" md-auto-select="options.autoSelect" ng-repeat="node in nodes.data | filter:{ domainName:filter.domainName }:true | filter: filter.search | orderBy: query.order | limitTo: query.limit : (query.page -1) * query.limit">
                 <td md-cell>{{node.nodeName.toUpperCase()}}</td>
                 <td md-cell>{{node.lastAccess.toUpperCase()}}</td>
-                <td md-cell>{{node.domainName}}</td>
+                <td md-cell>{{node.instanceName.toUpperCase()}}</td>
+                <td md-cell>{{node.domainName.toUpperCase()}}</td>
                 <td md-cell>{{node.logicalGB | number: 2}}</td>
               </tr>
             </tbody>
