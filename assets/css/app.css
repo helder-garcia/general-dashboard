@@ -10,6 +10,10 @@
        url(../icons/MaterialIcons-Regular.ttf) format('truetype');
 }
 
+md-sidenav {
+    width: 250px;
+}
+
 .material-icons {
   font-family: 'Material Icons';
   font-weight: normal;

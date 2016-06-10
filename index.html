@@ -17,70 +17,67 @@
         <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
           <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
         </md-button>
-        <h1>SERPRO - TSM Monitor</h1>
+        <h1>ODYSSEUS</h1>
       </div>
     </md-toolbar>
     <div layout="row" flex>
         <md-sidenav layout="column" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
-
-	      <md-content layout-padding>
-	        <p hide-md show-gt-md>
-	          This sidenav is locked open on your device. To go back to the default behavior,
-	          narrow your display.
-	        </p>
-<v-accordion class="vAccordion--default">
-
-  <!-- add expanded attribute to open the section -->
-  <v-pane expanded>
-    <v-pane-header>
-      Health Panel
-    </v-pane-header>
-    <v-pane-content>
-	    <ul class="nav">
-	    	<li><a ng-href="#dashboard">Dashboard</a></li>
-	    	<li><a ng-href="#">Alerts</a></li>
-	    	<li><a ng-href="#">Reports</a></li>
-	    </ul>
-    </v-pane-content>
-  </v-pane>
-
-  <v-pane>
-    <v-pane-header>
-      Administrators
-    </v-pane-header>
-    <v-pane-content>
-	    <ul class="nav">
-	    	<li><a ng-href="#">Profiles</a></li>
-	    	<li><a ng-href="#">Activities</a></li>
-	    	<li><a ng-href="#">Inactive Admins</a></li>
-	    	<li><a ng-href="#">Easy Passwords Hunter</a></li>
-    	</ul>   
-    </v-pane-content>
-  </v-pane>
-  
-  <v-pane>
-    <v-pane-header>
-      Resource Utilization
-    </v-pane-header>
-    <v-pane-content>
-    	<ul class="nav">
-    		<li><a ng-href="#nodes">Nodes</a></li>
-	    	<li><a ng-href="#instances">Instances</a></li>
-	    	<li><a ng-href="#">Drives</a></li>
-	    	<li><a ng-href="#">Tapes</a></li>
-	    	<li><a ng-href="#libscratch">Libraries Scratch</a></li>
-	    	<li><a ng-href="#nodesoccupancy">Nodes Occupancy</a></li>
-	    	<li><a ng-href="#notaccessednodes">Nodes Last Access</a></li>
-	    	<li><a ng-href="#">Disks</a></li>
-	    	<li><a ng-href="#">Network</a></li>
-    	</ul>
-    </v-pane-content>
-  </v-pane>
-
-</v-accordion>
-	      </md-content>
-
-        </md-sidenav>
+			<md-content layout-padding>
+				<p hide-md show-gt-md>
+				  This sidenav is locked open on your device. To go back to the default behavior,
+				  narrow your display.
+				</p>
+				<v-accordion class="vAccordion--default">
+				<!-- add expanded attribute to open the section -->
+				  <v-pane expanded>
+				    <v-pane-header>
+				      Health Panel
+				    </v-pane-header>
+				    <v-pane-content>
+					    <ul class="nav">
+					    	<li><a ng-href="#dashboard">Dashboard</a></li>
+					    	<li><a ng-href="#">Alerts</a></li>
+					    	<li><a ng-href="#">Reports</a></li>
+					    </ul>
+				    </v-pane-content>
+				  </v-pane>
+				
+				  <v-pane>
+				    <v-pane-header>
+				      Administrators
+				    </v-pane-header>
+				    <v-pane-content>
+					    <ul class="nav">
+					    	<li><a ng-href="#">Profiles</a></li>
+					    	<li><a ng-href="#">Activities</a></li>
+					    	<li><a ng-href="#">Inactive Admins</a></li>
+					    	<li><a ng-href="#">Easy Passwords Hunter</a></li>
+				    	</ul>   
+				    </v-pane-content>
+				  </v-pane>
+				  
+				  <v-pane>
+				    <v-pane-header>
+				      Resource Utilization
+				    </v-pane-header>
+				    <v-pane-content>
+				    	<ul class="nav">
+				    		<li><a ng-href="#nodes">Nodes</a></li>
+					    	<li><a ng-href="#instances">Instances</a></li>
+					    	<li><a ng-href="#">Drives</a></li>
+					    	<li><a ng-href="#">Tapes</a></li>
+					    	<li><a ng-href="#libscratch">Libraries Scratch</a></li>
+					    	<li><a ng-href="#nodesoccupancy">Nodes Occupancy</a></li>
+					    	<li><a ng-href="#notaccessednodes">Nodes Last Access</a></li>
+					    	<li><a ng-href="#">Disks</a></li>
+					    	<li><a ng-href="#">Network</a></li>
+				    	</ul>
+				    </v-pane-content>
+				  </v-pane>
+				
+				</v-accordion>
+			</md-content>
+		</md-sidenav>
         <div layout="column" flex id="content">
             <md-content layout="column" flex class="md-padding">
             	<div ng-view></div>
@@ -102,6 +99,8 @@
 	<script src="assets/js/dashboard.controller.js"></script>
 	<script src="assets/js/nodelist.controller.js"></script>
 	<script src="assets/js/instancelist.controller.js"></script>
+	<script src="assets/js/instancefilterlist.controller.js"></script>
+	<script src="assets/js/domainfilterlist.controller.js"></script>
 	<script src="assets/js/instance.controller.js"></script>
 	<script src="assets/js/libscratchlist.controller.js"></script>
 	<script src="assets/js/nodesoccupancylist.controller.js"></script>
