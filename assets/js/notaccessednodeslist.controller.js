@@ -51,15 +51,8 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', 'InstanceData
 			};
 			$scope.getNodes = function () {		
 				$scope.ipromise = InstanceData.instances.get({active: 1, reservedInstance: 0}, processInstance).$ipromise;
-			};
-			$scope.calcPagination = function () {	
-		        $scope.paginationTotalItems = Math.ceil($scope.filtered.length / $scope.query.limit);
-		        console.log('passou: ' + $scope.paginationTotalItems);
-		    };
-			
-			$scope.getNodes();
-			
-			
+			};			
+			$scope.getNodes();		
 			$scope.$watch('filter.search', function (newValue, oldValue) {
 					    if(!oldValue) {
 					      bookmark = $scope.query.page;
