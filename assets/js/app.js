@@ -31,8 +31,14 @@ app.config([ '$routeProvider', function($routeProvider) {
 	});
 } ]);
 app.config(function($mdThemingProvider) {
+	  var authenticMap = $mdThemingProvider.extendPalette('teal', {
+		    'A700': '#60BEC6',
+		    'contrastDefaultColor': 'light'
+		  });
+		  // Register the new color palette map with the name <code>neonRed</code>
+		  $mdThemingProvider.definePalette('authenticGreen', authenticMap);
 	  $mdThemingProvider.theme('default')
-	    .primaryPalette('light-blue', {
+	    .primaryPalette('authenticGreen', {
 	        'default': 'A700', // by default use shade 400 from the pink palette for primary intentions
 	        'hue-1': '100', // use shade 100 for the <code>md-hue-1</code> class
 	        'hue-2': '600', // use shade 600 for the <code>md-hue-2</code> class

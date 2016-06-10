@@ -5,20 +5,23 @@
   	<title>TSM Monitor</title>
     <link rel="stylesheet" href="node_modules/angular-material/angular-material.min.css">
     <link rel="stylesheet" href="node_modules/angular-material-data-table/dist/md-data-table.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic">
+    <link href='https://fonts.googleapis.com/css?family=Wire+One' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="assets/css/app.css">
     <link rel="stylesheet" href="node_modules/angular-chart.js/dist/angular-chart.min.css">
     <link rel="stylesheet" href="node_modules/v-accordion/dist/v-accordion.min.css">
     <meta name="viewport" content="initial-scale=1" />
   </head>
   <body layout="column" ng-controller="AppCtrl">
-    <md-toolbar layout="row">
-      <div class="md-toolbar-tools">
+    <md-toolbar layout="row" layout-align="center">
+    <div class="md-toolbar-tools" layout="row" layout-align="start center">    
         <md-button ng-click="toggleSidenav('left')" hide-gt-sm class="md-icon-button">
           <md-icon aria-label="Menu" md-svg-icon="https://s3-us-west-2.amazonaws.com/s.cdpn.io/68133/menu.svg"></md-icon>
         </md-button>
-        <h1>ODYSSEUS</h1>
-      </div>
+		<div class="md-toolbar-tools" layout="row" layout-align="center center">
+		   <h1>ODYSSEUS</h1>
+		</div>
+    </div>
     </md-toolbar>
     <div layout="row" flex>
         <md-sidenav layout="column" md-component-id="left" md-is-locked-open="$mdMedia('gt-sm')">
