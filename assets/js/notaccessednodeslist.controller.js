@@ -3,7 +3,7 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', 'InstanceData
 		function(NotAccessedNodes, InstanceData, $scope) {
 			'use strict';
 			var bookmark;
-
+			$scope.paginationTotalItems = 1;
 			$scope.selected = [];
 			$scope.query = {
 				instanceName : 'TSMBSBBKP1500',
@@ -29,7 +29,7 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', 'InstanceData
 					    largeEditDialog: false,
 					    boundaryLinks: true,
 					    limitSelect: true,
-					    pageSelect: true
+					    pageSelect: false
 			};			
 			$scope.removeFilter = function() {
 				$scope.filter.show = false;
@@ -38,6 +38,7 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', 'InstanceData
 			        $scope.filter.form.$setPristine();
 			    }
 			};
+			
 			//$scope.nodes = NotAccessedNodes.query();
 			function success(nodes) {
 				    $scope.nodes.data = $scope.nodes.data.concat(nodes.data);
@@ -45,15 +46,20 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', 'InstanceData
 			};
 			function processInstance(instances) {			
 				instances.data.forEach(function(instance) {
-					console.log(instance);
 					$scope.promise = NotAccessedNodes.nodes.get({instanceName: instance.instanceName}, success).$promise;
-		        });				
-
-				
+		        });
 			};
 			$scope.getNodes = function () {		
 				$scope.ipromise = InstanceData.instances.get({active: 1, reservedInstance: 0}, processInstance).$ipromise;
 			};
+			$scope.calcPagination = function () {	
+		        $scope.paginationTotalItems = Math.ceil($scope.filtered.length / $scope.query.limit);
+		        console.log('passou: ' + $scope.paginationTotalItems);
+		    };
+			
+			$scope.getNodes();
+			
+			
 			$scope.$watch('filter.search', function (newValue, oldValue) {
 					    if(!oldValue) {
 					      bookmark = $scope.query.page;
@@ -67,7 +73,7 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', 'InstanceData
 					      $scope.query.page = bookmark;
 					    }
 					    
-					    $scope.getNodes();
+					    //$scope.getNodes();
 			});				  
 
 		} ]);
