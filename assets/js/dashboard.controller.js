@@ -43,9 +43,18 @@ app.controller('dashboardWidget01Ctrl', ['$scope', 'driveData', '$interval', fun
 	    console.log(points, evt);
 	  }; 
 	}]);
-app.controller('dashboardWidget02Ctrl', ['$scope', function($scope){
-    $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"];
-    $scope.data = [300, 500, 100, 40, 120];
+app.controller('dashboardWidget02Ctrl', ['InstanceData', '$scope', function(InstanceData, $scope){
+	function success(instances) {
+		var instancesArray = instances.data;
+		$scope.labels = instancesArray.map(function(a) {return a.instanceName;});
+		$scope.data = instancesArray.map(function(a) {return a.nodesCount;});
+	};
+	$scope.getInstances = function () {
+		$scope.promise = InstanceData.instances.get({active: 1}, success).$promise;
+	};
+	$scope.getInstances();
+    //$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"];
+    //$scope.data = [300, 500, 100, 40, 120];
 	}]);
 app.controller('dashboardWidget03Ctrl', ['$scope', function($scope){
 	 $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];

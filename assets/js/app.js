@@ -78,7 +78,7 @@ app.factory('driveData', function ($http, $q) {
         ajaxItems: function () {
             var deferred = $q.defer();
             setTimeout(function() {
-            $http.get("http://10.200.84.205:1337/Drive")
+            $http.get("http://localhost:1337/Drive")
             	//$http.get("http://localhost:1337/Drive")
                 .success(function (data, status, headers, config) {
                     deferred.resolve(data);
