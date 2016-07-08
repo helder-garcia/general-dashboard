@@ -1,63 +1,69 @@
+<md-content laout="column" flex> <md-card> <md-toolbar
+	class="md-table-toolbar md-default" ng-hide="filter.show">
+<div class="md-toolbar-tools">
+	<span>NODES LAST ACCESS</span>
+	<div flex></div>
+	<div class="md-body-1" layout="column" layout-align="center center"
+		ng-controller="InstanceFilterListController">
+		<md-select placeholder="Instâncias: Todas"
+			ng-model="filter.instanceName" md-on-open="loadInstances()"
+			style="min-width: 200px;"> <md-option
+			ng-value="instance.selectValue" ng-repeat="instance in instances">
+		<span class="md-caption">{{instance.instanceName}}</span></md-option> </md-select>
+	</div>
+	<div class="md-body-1" layout="column" layout-align="center center"
+		ng-controller="DomainFilterListController">
+		<md-select placeholder="Domínios: Todos" ng-model="filter.domainName"
+			md-on-open="loadDomains()" style="min-width: 200px;"> <md-option
+			ng-value="domain.selectValue" ng-repeat="domain in domains">
+		<span class="md-caption">{{domain.domainName}}</span></md-option> </md-select>
+	</div>
+	<md-button class="md-icon-button" ng-click="filter.show = true"
+		aria-label="filter_list"> <md-icon>filter_list</md-icon> </md-button>
+	<md-button class="md-icon-button" ng-click="getNodes()"> <md-icon>refresh</md-icon>
+	</md-button>
+</div>
+</md-toolbar> <md-toolbar class="md-table-toolbar md-default" ng-show="filter.show">
+<div class="md-toolbar-tools flex">
+	<md-icon>search</md-icon>
+	<form class="ng-pristine ng-valid flex" name="filter.form" flex="">
+		<input class="ng-pristine ng-untouched ng-valid"
+			ng-model="filter.search" type="text" placeholder="search" />
 
-    <md-content laout="column" flex>
-      <md-card>     
-        <md-toolbar class="md-table-toolbar md-default" ng-hide="filter.show">
-          <div class="md-toolbar-tools">
-            <span>NODES LAST ACCESS</span>
-            <div flex></div>
-			<div class="md-body-1" layout="column" layout-align="center center" ng-controller="InstanceFilterListController">
-			    <md-select placeholder="Instâncias: Todas" ng-model="filter.instanceName" md-on-open="loadInstances()" style="min-width: 200px;">
-			      <md-option ng-value="instance.selectValue" ng-repeat="instance in instances"><span class="md-caption">{{instance.instanceName}}</span></md-option>
-			    </md-select>
-			</div>
-			<div class="md-body-1" layout="column" layout-align="center center" ng-controller="DomainFilterListController">
-			    <md-select placeholder="Domínios: Todos" ng-model="filter.domainName" md-on-open="loadDomains()" style="min-width: 200px;">
-			      <md-option ng-value="domain.selectValue" ng-repeat="domain in domains"><span class="md-caption">{{domain.domainName}}</span></md-option>
-			    </md-select>
-			</div>
-            <md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter_list">
-            	<md-icon>filter_list</md-icon>
-            </md-button>
-            <md-button class="md-icon-button" ng-click="getNodes()">
-              <md-icon>refresh</md-icon>
-            </md-button>
-          </div>
-        </md-toolbar>
-		<md-toolbar class="md-table-toolbar md-default" ng-show="filter.show">
-			<div class="md-toolbar-tools flex">
-				<md-icon>search</md-icon>			
-				<form class="ng-pristine ng-valid flex" name="filter.form" flex="">
-						<input class="ng-pristine ng-untouched ng-valid" ng-model="filter.search" type="text" placeholder="search" />
-
-				</form>
-		        <md-button class="md-icon-button" ng-click="removeFilter()">
-		            <md-icon>close</md-icon>
-		        </md-button>
-	        </div>
-		</md-toolbar>
-        
-        <md-table-container>
-          <table md-table md-row-select="options.rowSelection" multiple="{{options.multiSelect}}" ng-model="selected" md-progress="promise">
-            <thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="">
-              <tr md-row>
-                <th md-column md-order-by="nodeName"><span>Node Name</span></th>
-                <th md-column md-order-by="lastAccess"><span>Last Time Access</span></th>
-                <th md-column md-order-by="instanceName"><span>Instance Name</span></th>
-                <th md-column md-order-by="domainName"><span>Domain Name</span></th>
-                <th md-column md-numeric md-order-by="logicalGB"><span>Logical (GB)</span></th>
-              </tr>
-            </thead>
-            <tbody md-body>
-              <tr md-row md-select="node" md-auto-select="options.autoSelect" ng-repeat="node in limited = ((filtered = (nodes.data | filter:{ instanceName:filter.instanceName }:true | filter:{ domainName:filter.domainName }:true | filter: filter.search | orderBy: query.order )) | limitTo: query.limit : (query.page -1) * query.limit)">
-                <td md-cell>{{node.nodeName.toUpperCase()}}</td>
-                <td md-cell>{{node.lastAccess.toUpperCase()}}</td>
-                <td md-cell>{{node.instanceName.toUpperCase()}}</td>
-                <td md-cell>{{node.domainName.toUpperCase()}}</td>
-                <td md-cell>{{node.logicalGB | number: 2}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </md-table-container>
-        <md-table-pagination md-limit="query.limit" md-limit-options="limitOptions" md-page="query.page" md-total="{{filtered.length}}" md-on-paginate="" md-page-select="options.pageSelect" md-boundary-links="options.boundaryLinks"></md-table-pagination>
-      </md-card>
-    </md-content>
+	</form>
+	<md-button class="md-icon-button" ng-click="removeFilter()">
+	<md-icon>close</md-icon> </md-button>
+</div>
+</md-toolbar> <md-table-container>
+<table md-table md-row-select="options.rowSelection"
+	multiple="{{options.multiSelect}}" ng-model="selected"
+	md-progress="promise">
+	<thead ng-if="!options.decapitate" md-head md-order="query.order"
+		md-on-reorder="">
+		<tr md-row>
+			<th md-column md-order-by="nodeName"><span>Node Name</span></th>
+			<th md-column md-order-by="lastAccess"><span>Last Time
+					Access</span></th>
+			<th md-column md-order-by="instanceName"><span>Instance
+					Name</span></th>
+			<th md-column md-order-by="domainName"><span>Domain Name</span></th>
+			<th md-column md-numeric md-order-by="logicalGB"><span>Logical
+					(GB)</span></th>
+		</tr>
+	</thead>
+	<tbody md-body>
+		<tr md-row md-select="node" md-auto-select="options.autoSelect"
+			ng-repeat="node in limited = ((filtered = (nodes.data | filter:{ instanceName:filter.instanceName }:true | filter:{ domainName:filter.domainName }:true | filter: filter.search | orderBy: query.order )) | limitTo: query.limit : (query.page -1) * query.limit)">
+			<td md-cell>{{node.nodeName.toUpperCase()}}</td>
+			<td md-cell>{{node.lastAccess.toUpperCase()}}</td>
+			<td md-cell>{{node.instanceName.toUpperCase()}}</td>
+			<td md-cell>{{node.domainName.toUpperCase()}}</td>
+			<td md-cell>{{node.logicalGB | number: 2}}</td>
+		</tr>
+	</tbody>
+</table>
+</md-table-container> <md-table-pagination md-limit="query.limit"
+	md-limit-options="limitOptions" md-page="query.page"
+	md-total="{{filtered.length}}" md-on-paginate=""
+	md-page-select="options.pageSelect"
+	md-boundary-links="options.boundaryLinks"></md-table-pagination> </md-card> </md-content>

@@ -1,54 +1,78 @@
 var app = angular.module('StarterApp');
-app.controller('NodesOccupancyController', [ 'NodesOccupancy', '$http', '$q',
-		'$timeout', '$scope',
-		function(NodesOccupancy, $http, $q, $timeout, $scope) {
+app.controller('NodesOccupancyController', [ 'NodesOccupancy', 'InstanceData',
+		'$scope', function(NodesOccupancy, InstanceData, $scope) {
 			'use strict';
-			$scope.isOpen = false;
-			$scope.nodesOccupancyToolBar = {
-				isOpen : false,
-				count : 0,
-				selectedDirection : 'left'
-			};
+			var bookmark;
+			$scope.paginationTotalItems = 1;
 			$scope.selected = [];
 			$scope.query = {
+				instanceName : 'TSMBSBBKP1500',
 				order : 'nodeName',
 				limit : 10,
 				page : 1
 			};
-			$scope.columns = [ 
-			{
-				name : 'Node Name',
-				orderBy : 'nodeName'
-			}, {
-				name : 'Domain',
-				orderBy : 'domainName'
-			}, {
-				name : 'Logical GB',
-				orderBy : 'logicalGB'
-			} ];
+			$scope.filter = {
+				options : {
+					debounce : 500
+				}
+			};
+			$scope.nodes = {
+				count : 0,
+				data : []
+			};
+			$scope.limitOptions = [ 5, 10, 15 ];
+			$scope.options = {
+				rowSelection : true,
+				multiSelect : true,
+				autoSelect : true,
+				decapitate : false,
+				largeEditDialog : false,
+				boundaryLinks : true,
+				limitSelect : true,
+				pageSelect : false
+			};
+			$scope.removeFilter = function() {
+				$scope.filter.show = false;
+				$scope.filter.search = '';
+				if ($scope.filter.form.$dirty) {
+					$scope.filter.form.$setPristine();
+				}
+			};
 
-			$scope.nodes = NodesOccupancy.query();
+			function success(nodes) {
+				$scope.nodes.data = $scope.nodes.data.concat(nodes.data);
+				$scope.nodes.count = $scope.nodes.data.length;
+			}
+			;
+			function processInstance(instances) {
+				instances.data.forEach(function(instance) {
+					$scope.promise = NodesOccupancy.nodes.get({
+						instanceName : instance.instanceName
+					}, success).$promise;
+				});
+			}
+			;
+			$scope.getNodes = function() {
+				$scope.ipromise = InstanceData.instances.get({
+					active : 1,
+					reservedInstance : 0
+				}, processInstance).$ipromise;
+			};
+			$scope.getNodes();
+			$scope.$watch('filter.search', function(newValue, oldValue) {
+				if (!oldValue) {
+					bookmark = $scope.query.page;
+				}
 
-			$scope.onpagechange = function(page, limit) {
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.resolve();
-				}, 2000);
-				return deferred.promise;
-			};
-			$scope.loadStuff = function() {
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.reject();
-				}, 2000);
-				$scope.deferred = deferred.promise;
-			};
-			$scope.onorderchange = function(order) {
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.resolve();
-				}, 2000);
-				return deferred.promise;
-			};
+				if (newValue !== oldValue) {
+					$scope.query.page = 1;
+				}
+
+				if (!newValue) {
+					$scope.query.page = bookmark;
+				}
+
+				// $scope.getNodes();
+			});
 
 		} ]);

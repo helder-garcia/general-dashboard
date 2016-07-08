@@ -1,56 +1,71 @@
 var app = angular.module('StarterApp');
-app.controller('LibScratchListController', [
-        'LibScratch',
-		'$http',
-		'$q',
-		'$timeout',
-		'$scope',
-		function(LibScratch, $http, $q, $timeout, $scope) {
+app.controller('LibScratchListController', [ 'LibScratch', '$scope',
+		function(LibScratch, $scope) {
 			'use strict';
-		      $scope.isOpen = false;
-		      $scope.libScratchToolBar = {
-		        isOpen: false,
-		        count: 0,
-		        selectedDirection: 'left'
-		      };
+			var bookmark;
+			$scope.paginationTotalItems = 1;
 			$scope.selected = [];
 			$scope.query = {
+				instanceName : 'TSMBSBLMR1700',
 				order : 'libName',
 				limit : 10,
 				page : 1
 			};
-			$scope.columns = [
-			{
-				name : 'Library',
-				orderBy : 'libName'
-			}, {
-				name : 'Scratch',
-				orderBy : 'scratch'
-			} 
-			];
-			
-			$scope.scratchVols = LibScratch.query();
+			$scope.filter = {
+				options : {
+					debounce : 500
+				}
+			};
+			$scope.scratches = {
+				count : 0,
+				data : []
+			};
+			$scope.limitOptions = [ 5, 10, 15 ];
+			$scope.options = {
+				rowSelection : true,
+				multiSelect : true,
+				autoSelect : true,
+				decapitate : false,
+				largeEditDialog : false,
+				boundaryLinks : true,
+				limitSelect : true,
+				pageSelect : false
+			};
+			$scope.removeFilter = function() {
+				$scope.filter.show = false;
+				$scope.filter.search = '';
+				if ($scope.filter.form.$dirty) {
+					$scope.filter.form.$setPristine();
+				}
+			};
 
-			$scope.onpagechange = function(page, limit) {
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.resolve();
-				}, 2000);
-				return deferred.promise;
+			function success(scratches) {
+				$scope.scratches = scratches;
+			}
+			;
+
+			$scope.getScratches = function() {
+
+				$scope.promise = LibScratch.scratches.get({
+					instanceName : $scope.query.instanceName
+				}, success).$promise;
+
 			};
-			$scope.loadStuff = function() {
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.reject();
-				}, 2000);
-				$scope.deferred = deferred.promise;
-			};
-			$scope.onorderchange = function(order) {
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.resolve();
-				}, 2000);
-				return deferred.promise;
-			};
+
+			$scope.getScratches();
+
+			$scope.$watch('filter.search', function(newValue, oldValue) {
+				if (!oldValue) {
+					bookmark = $scope.query.page;
+				}
+
+				if (newValue !== oldValue) {
+					$scope.query.page = 1;
+				}
+
+				if (!newValue) {
+					$scope.query.page = bookmark;
+				}
+			});
 
 		} ]);
