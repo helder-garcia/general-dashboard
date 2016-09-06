@@ -64,10 +64,62 @@ app.controller('dashboardWidget03Ctrl', ['$scope', function($scope){
 	    [28, 48, 40, 19, 86, 27, 90]
 	  ];
 	}]);
-app.controller('dashboardWidget04Ctrl', ['$scope', function($scope){
-    $scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"];
-    $scope.data = [300, 500, 100, 40, 120];
-	}]);
+app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', function($scope, $interval){
+    $scope.series = ['Series A', 'Series B'];
+    $scope.options = {
+    		title: {
+    			display: true,
+    			text: 'Custom Chart Title'
+    		},
+            legend: {
+                display: false
+            },
+            tooltipTemplate : function (label) {
+                return label.datasetLabel + '=> ' +    label.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            },
+    		scales: {
+    			xAxes: [{
+    				display: false,
+    				ticks: {
+    					max: 125,
+    					min: -125,
+    					stepSize: 10
+    				}
+    			}],
+    			yAxes: [{
+    				display: false,
+    				ticks: {
+    					max: 125,
+    					min: -125,
+    					stepSize: 10
+    				}
+    			}]
+    		}
+    };
+    createChart();
+    $interval(createChart, 200000);
+
+    function createChart () {
+      $scope.series = [];
+      $scope.data = [];
+      for (var i = 0; i < 20; i++) {
+        $scope.series.push(`Series ${i}`);
+        $scope.data.push([{
+          x: randomScalingFactor(),
+          y: randomScalingFactor(),
+          r: randomRadius()
+        }]);
+      }
+    }
+
+    function randomScalingFactor () {
+      return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
+    }
+
+    function randomRadius () {
+      return Math.abs(randomScalingFactor()) / 4;
+    }
+    }]);
 app.controller('dashboardWidget01Copy', ['$scope', function($scope){
 	  $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
 	  $scope.series = ['Series A', 'Series B'];
