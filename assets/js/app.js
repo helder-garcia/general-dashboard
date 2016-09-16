@@ -22,6 +22,9 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/instances/:id/edit', {
 		templateUrl : 'assets/html/instance-edit.html',
 		controller : 'InstanceController'
+	}).when('/diskpoolsutil', {
+		templateUrl : 'assets/html/diskpool-list.html',
+		controller : 'DiskpoolListController'
 	}).when('/nodes/:nodeId', {
 		templateUrl : 'partials/node-detail.html',
 		controller : 'NodeDetailCtrl'
@@ -51,12 +54,23 @@ app.config([ '$resourceProvider', function($resourceProvider) {
 	// Don't strip trailing slashes from calculated URLs
 	$resourceProvider.defaults.stripTrailingSlashes = false;
 } ]);
+app.config(['ChartJsProvider', function (ChartJsProvider) {
+    // Configure all charts
+    ChartJsProvider.setOptions({
+      chartColors: ['#FF5252', '#FF8A80'],
+      responsive: true
+    });
+    // Configure all line charts
+    ChartJsProvider.setOptions('line', {
+      showLines: true
+    });
+  }]);
 app.controller('AppCtrl', [ '$scope', '$mdSidenav',
 		function($scope, $mdSidenav) {
 			$scope.toggleSidenav = function(menuId) {
 				$mdSidenav(menuId).toggle();
 			};
-		} ]);
+}]);
 
 app.factory('nodeData', function($http, $q) {
 	return {
@@ -158,5 +172,19 @@ app.factory('InstanceData', [ '$resource', function($resource) {
 	'use strict';
 	return {
 		instances : $resource('http://localhost:1337/Instance/:id')
+	};
+} ]);
+
+app.factory('DiskpoolsUtil', [ '$resource', function($resource) {
+	'use strict';
+	return {
+		diskpools : $resource('http://localhost:1337/Stgpct/:id')
+	};
+} ]);
+
+app.factory('ActionMigrate', [ '$resource', function($resource) {
+	'use strict';
+	return {
+		migrate : $resource('http://localhost:1337/actionmigrate/')
 	};
 } ]);

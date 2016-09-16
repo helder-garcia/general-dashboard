@@ -65,19 +65,36 @@ app.controller('dashboardWidget03Ctrl', ['$scope', function($scope){
 	  ];
 	}]);
 app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', function($scope, $interval){
-    $scope.series = ['Series A', 'Series B'];
+
     $scope.options = {
     		title: {
     			display: true,
-    			text: 'Custom Chart Title'
+    			text: 'Disk Pool Utilization'
     		},
             legend: {
                 display: false
             },
-            tooltipTemplate : function (label) {
-                return label.datasetLabel + '=> ' +    label.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            tooltips: {
+            	enabled: true,
+            	mode: 'single',
+                custom: function(tooltip) {
+                    if (!tooltip.body) {
+                        return;
+                    }
+                    var newLabel = "";
+                    var myRegex = new RegExp(/^(.*: )\(-*\d+\,\s-*\d+,\s(\d+|\d+\.\d+)\)$/);
+                    var parsedLine = myRegex.exec(tooltip.body[0].lines[0]);
+                    if (parsedLine === null) {
+                    	newLabel = "Fetch error";
+                    	console.log("line ", tooltip.body[0].lines[0]);
+                    } else {
+                    	newLabel = parsedLine[1] + parsedLine[2];           	
+                    }
+                    tooltip.body[0].lines[0] = newLabel;
+                    //console.log("body ", tooltip.body[0].lines[0]);
+                }
             },
-    		scales: {
+            scales: {
     			xAxes: [{
     				display: false,
     				ticks: {
