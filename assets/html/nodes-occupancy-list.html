@@ -3,21 +3,22 @@
 <div class="md-toolbar-tools">
 	<span>NODES OCCUPANCY</span>
 	<div flex></div>
-	<div class="md-body-1" layout="column" layout-align="center center"
-		ng-controller="InstanceFilterListController">
-		<md-select placeholder="Instâncias: Todas"
-			ng-model="filter.instanceName" md-on-open="loadInstances()"
-			style="min-width: 200px;"> <md-option
-			ng-value="instance.selectValue" ng-repeat="instance in instances">
-		<span class="md-caption">{{instance.instanceName}}</span></md-option> </md-select>
-	</div>
-	<div class="md-body-1" layout="column" layout-align="center center"
-		ng-controller="DomainFilterListController">
-		<md-select placeholder="Domínios: Todos" ng-model="filter.domainName"
-			md-on-open="loadDomains()" style="min-width: 200px;"> <md-option
-			ng-value="domain.selectValue" ng-repeat="domain in domains">
-		<span class="md-caption">{{domain.domainName}}</span></md-option> </md-select>
-	</div>
+					<div class="md-body-1" layout="column" layout-align="center center" ng-controller="LocationFilterListController">
+						<md-select ng-model="query.selectedLocation" placeholder="{{query.selectedLocation.locationName}}" md-on-open="loadLocations()" md-on-close="getDiskpools()" style="min-width: 200px;">
+							<md-option ng-value="location" ng-repeat="location in locations">
+								<span class="md-caption">{{location.locationName}}</span>
+							</md-option>
+						</md-select>
+					</div>
+					<div class="md-body-1" layout="column" layout-align="center center" >
+						<md-select placeholder="Instâncias: Todas"
+							ng-model="filter.instanceName" 
+							style="min-width: 200px;">
+							<md-option ng-value="instance.instanceName" ng-repeat="instance in instances">
+								<span class="md-caption">{{instance.instanceName}}</span>
+							</md-option>
+						</md-select>
+					</div>
 	<md-button class="md-icon-button" ng-click="filter.show = true"
 		aria-label="filter_list"> <md-icon>filter_list</md-icon> </md-button>
 	<md-button class="md-icon-button" ng-click="getNodes()"> <md-icon>refresh</md-icon>
@@ -42,8 +43,7 @@
 		md-on-reorder="">
 		<tr md-row>
 			<th md-column md-order-by="nodeName"><span>Node Name</span></th>
-			<th md-column md-order-by="instanceName"><span>Instance
-					Name</span></th>
+			<th md-column md-order-by="instanceName"><span>Instance Name</span></th>
 			<th md-column md-order-by="domainName"><span>Domain Name</span></th>
 			<th md-column md-numeric md-order-by="logicalGB"><span>Logical
 					(GB)</span></th>

@@ -5,8 +5,10 @@ app.controller('NodesOccupancyController', [ 'NodesOccupancy', 'InstanceData',
 			var bookmark;
 			$scope.paginationTotalItems = 1;
 			$scope.selected = [];
+			$scope.instances = [];
 			$scope.query = {
-				instanceName : 'TSMBSBBKP1500',
+				instanceName : '',
+				selectedLocation : { id: 1, locationName: 'Brasília', selectValue: 'BSA' },
 				order : 'nodeName',
 				limit : 10,
 				page : 1
@@ -45,6 +47,7 @@ app.controller('NodesOccupancyController', [ 'NodesOccupancy', 'InstanceData',
 			}
 			;
 			function processInstance(instances) {
+				$scope.instances = instances.data;
 				instances.data.forEach(function(instance) {
 					$scope.promise = NodesOccupancy.nodes.get({
 						instanceName : instance.instanceName
@@ -53,8 +56,11 @@ app.controller('NodesOccupancyController', [ 'NodesOccupancy', 'InstanceData',
 			}
 			;
 			$scope.getNodes = function() {
+				$scope.nodes.data = [];
+				$scope.selected = [];				
 				$scope.ipromise = InstanceData.instances.get({
 					active : 1,
+					hostingLocation : $scope.query.selectedLocation.selectValue,
 					reservedInstance : 0
 				}, processInstance).$ipromise;
 			};
