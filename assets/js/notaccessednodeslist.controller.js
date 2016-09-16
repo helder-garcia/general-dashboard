@@ -1,13 +1,14 @@
 var app = angular.module('StarterApp');
-app.controller('NotAccessedNodesController', [ 'NotAccessedNodes',
-		'InstanceData', '$scope',
+app.controller('NotAccessedNodesController', [ 'NotAccessedNodes', 'InstanceData', '$scope',
 		function(NotAccessedNodes, InstanceData, $scope) {
 			'use strict';
 			var bookmark;
 			$scope.paginationTotalItems = 1;
 			$scope.selected = [];
+			$scope.instances = [];
 			$scope.query = {
-				instanceName : 'TSMBSBBKP1500',
+				instanceName : '',
+				selectedLocation : { id: 1, locationName: 'Brasília', selectValue: 'BSA' },
 				order : 'nodeName',
 				limit : 10,
 				page : 1
@@ -44,9 +45,9 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes',
 			function success(nodes) {
 				$scope.nodes.data = $scope.nodes.data.concat(nodes.data);
 				$scope.nodes.count = $scope.nodes.data.length;
-			}
-			;
+			};		
 			function processInstance(instances) {
+				$scope.instances = instances.data;
 				instances.data.forEach(function(instance) {
 					$scope.promise = NotAccessedNodes.nodes.get({
 						instanceName : instance.instanceName
@@ -55,9 +56,11 @@ app.controller('NotAccessedNodesController', [ 'NotAccessedNodes',
 			}
 			;
 			$scope.getNodes = function() {
+				$scope.nodes.data = [];
+				$scope.selected = [];
 				$scope.ipromise = InstanceData.instances.get({
 					active : 1,
-					reservedInstance : 0
+					hostingLocation : $scope.query.selectedLocation.selectValue
 				}, processInstance).$ipromise;
 			};
 			$scope.getNodes();
