@@ -65,6 +65,22 @@ app.config(['ChartJsProvider', function (ChartJsProvider) {
       showLines: true
     });
   }]);
+app.filter('migratable', function() {
+	return function(input, filterActive) {
+		input = input || [];
+		if(filterActive) {
+			var out = [];
+			angular.forEach(input, function(pool) {
+				if (pool.pctMig > 0.0 && pool.migRunning == 'NO' && pool.nextStgPool !== '') {
+					out.push(pool)
+				}
+			});
+			return out;
+		} else {
+			return input;
+		}
+	};
+});
 app.controller('AppCtrl', [ '$scope', '$mdSidenav',
 		function($scope, $mdSidenav) {
 			$scope.toggleSidenav = function(menuId) {

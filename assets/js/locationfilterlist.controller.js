@@ -9,7 +9,7 @@ app.controller('LocationFilterListController', [ 'InstanceData', '$timeout', '$s
 		// Use timeout to simulate a 650ms request.
 		return $timeout(function() {
 			$scope.locations =  $scope.locations  || [
-			                                          { id: 0, locationName: 'Locais: Todos', selectValue: undefined },
+			                                          { id: 0, locationName: 'Location: All', selectValue: undefined },
 			                                          { id: 1, locationName: 'Brasília', selectValue: 'BSA' },
 			                                          { id: 2, locationName: 'São Paulo', selectValue: 'SPO' },
 			                                          { id: 3, locationName: 'Rio de Janeiro', selectValue: 'RJO' }

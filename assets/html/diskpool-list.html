@@ -13,13 +13,21 @@
 						</md-select>
 					</div>
 					<div class="md-body-1" layout="column" layout-align="center center" >
-						<md-select placeholder="Instâncias: Todas" ng-model="filter.instanceName" style="min-width: 200px;">
-							<md-option ng-value="!!"><span class="md-caption">Instâncias: Todas</span></md-option>
+						<md-select placeholder="Instances: All" ng-model="filter.instanceName" style="min-width: 200px;">
+							<md-option ng-value="!!"><span class="md-caption">Instances: All</span></md-option>
 							<md-option ng-value="instance.instanceName" ng-repeat="instance in instances">
 								<span class="md-caption">{{instance.instanceName}}</span>
 							</md-option>
 						</md-select>
 					</div>
+					<div class="md-body-1" layout="column" layout-align="center center" >
+						<md-select placeholder="Status: Todos" ng-model="filter.migRunning" style="min-width: 200px;">
+							<md-option ng-value="!!"><span class="md-caption">Status: All</span></md-option>
+							<md-option value="YES"><span class="md-caption">Migrating</span></md-option>
+							<md-option value="NO"><span class="md-caption">Not Migrating</span></md-option>
+						</md-select>
+					</div>
+
 					<md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter_list">
 						<md-icon>filter_list</md-icon>
 					</md-button>
@@ -27,6 +35,14 @@
 						<md-icon>refresh</md-icon>
 					</md-button>
 				</div>
+			</md-toolbar>
+			<md-toolbar class="md-table-toolbar md-default" ng-hide="filter.show">
+					<div flex></div>
+					<div class="md-body-1" layout="row" layout-align="center start" >
+						<md-checkbox md-no-ink ng-model="filter.hideNonMigratable" aria-label="No Ink Effects">
+						  <span class="md-caption">Hide non migratable</span>
+						</md-checkbox>
+					</div>
 			</md-toolbar>
 			<md-toolbar class="md-table-toolbar md-default" ng-show="filter.show">
 				<div class="md-toolbar-tools flex">
@@ -56,7 +72,7 @@
 					</thead>
 					<tbody md-body>
 						<tr md-row md-select="stgpool" md-auto-select="options.autoSelect" ng-disabled="stgpool.pctMig == 0 || stgpool.migRunning == 'YES' || stgpool.nextStgPool == ''"
-							ng-repeat="stgpool in limited = ((filtered = (diskpools.data | filter:{ instanceName:filter.instanceName }:true | filter: filter.search | orderBy: query.order )) | limitTo: query.limit : (query.page -1) * query.limit)">
+							ng-repeat="stgpool in limited = ((filtered = (diskpools.data | filter:{ instanceName:filter.instanceName }:true | filter:{ migRunning:filter.migRunning }:true | migratable:filter.hideNonMigratable |filter: filter.search | orderBy: query.order )) | limitTo: query.limit : (query.page -1) * query.limit)">
 							<td md-cell>{{stgpool.stgPoolName.toUpperCase()}}</td>
 							<td md-cell>{{stgpool.instanceName.toUpperCase()}}</td>
 							<td md-cell>{{stgpool.pctUtilized | number: 1}}%</td>

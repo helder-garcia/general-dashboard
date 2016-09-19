@@ -3,6 +3,7 @@ app.controller('DiskpoolListController', [ 'DiskpoolsUtil', 'InstanceData', 'Act
 		function(DiskpoolsUtil, InstanceData, ActionMigrate, $scope, $mdDialog) {
 			'use strict';
 			var bookmark;
+			
 			$scope.paginationTotalItems = 1;
 			$scope.selected = [];
 			$scope.username = null;
