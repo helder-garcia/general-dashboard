@@ -64,8 +64,16 @@ app.controller('dashboardWidget03Ctrl', ['$scope', function($scope){
 	    [28, 48, 40, 19, 86, 27, 90]
 	  ];
 	}]);
-app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', function($scope, $interval){
-
+app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', 'DiskpoolsUtil', 'InstanceData', function($scope, $interval, DiskpoolsUtil, InstanceData){
+	var filter = 50;
+	$scope.diskpools = {
+			count : 0,
+			data : []
+	};
+	$scope.instances = [];
+	$scope.query = {
+			selectedLocation : { id: 1, locationName: 'Brasília', selectValue: 'BSA' }
+		};
     $scope.options = {
     		title: {
     			display: true,
@@ -88,7 +96,7 @@ app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', function($scope,
                     	newLabel = "Fetch error";
                     	console.log("line ", tooltip.body[0].lines[0]);
                     } else {
-                    	newLabel = parsedLine[1] + parsedLine[2];           	
+                    	newLabel = parsedLine[1] + parsedLine[2] + '%';           	
                     }
                     tooltip.body[0].lines[0] = newLabel;
                     //console.log("body ", tooltip.body[0].lines[0]);
@@ -113,25 +121,42 @@ app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', function($scope,
     			}]
     		}
     };
+	function success(diskpools) {
+		//$scope.diskpools.data = $scope.diskpools.data.concat(diskpools.data);
+		//$scope.diskpools.count = $scope.diskpools.data.length;
+	      for (var i = 0; i < diskpools.count; i++) {
+	    	  if(diskpools.data[i].pctUtilized >= filter) {
+		          $scope.series.push(diskpools.data[i].instanceName + '|' + diskpools.data[i].stgPoolName);
+		          $scope.data.push([{
+		            x: randomScalingFactor(),
+		            y: randomScalingFactor(),
+		            r: diskpools.data[i].pctUtilized
+		          }]);
+	    	  }
+	        }
+	};
     createChart();
     $interval(createChart, 200000);
-
+	function processInstance(instances) {
+		$scope.instances = instances.data;
+		instances.data.forEach(function(instance) {
+			console.log(instance.instanceName);
+			DiskpoolsUtil.diskpools.get({instanceName : instance.instanceName}, success);
+		});
+	};
     function createChart () {
-      $scope.series = [];
-      $scope.data = [];
-      for (var i = 0; i < 20; i++) {
-        $scope.series.push(`Series ${i}`);
-        $scope.data.push([{
-          x: randomScalingFactor(),
-          y: randomScalingFactor(),
-          r: randomRadius()
-        }]);
-      }
-    }
+    	$scope.diskpools.data = [];
+    	$scope.series = [];
+    	$scope.data = [];
+		InstanceData.instances.get({
+			active : 1,
+			hostingLocation : $scope.query.selectedLocation.selectValue
+		}, processInstance);
+    };
 
     function randomScalingFactor () {
       return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
-    }
+    };
 
     function randomRadius () {
       return Math.abs(randomScalingFactor()) / 4;
