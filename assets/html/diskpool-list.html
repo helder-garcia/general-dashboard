@@ -13,9 +13,8 @@
 						</md-select>
 					</div>
 					<div class="md-body-1" layout="column" layout-align="center center" >
-						<md-select placeholder="Instâncias: Todas"
-							ng-model="filter.instanceName" 
-							style="min-width: 200px;">
+						<md-select placeholder="Instâncias: Todas" ng-model="filter.instanceName" style="min-width: 200px;">
+							<md-option ng-value="!!"><span class="md-caption">Instâncias: Todas</span></md-option>
 							<md-option ng-value="instance.instanceName" ng-repeat="instance in instances">
 								<span class="md-caption">{{instance.instanceName}}</span>
 							</md-option>

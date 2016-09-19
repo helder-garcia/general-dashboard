@@ -49,8 +49,7 @@ app.controller('DiskpoolListController', [ 'DiskpoolsUtil', 'InstanceData', 'Act
 			function success(diskpools) {
 				$scope.diskpools.data = $scope.diskpools.data.concat(diskpools.data);
 				$scope.diskpools.count = $scope.diskpools.data.length;
-			}
-			;
+			};
 			function processInstance(instances) {
 				$scope.instances = instances.data;
 				instances.data.forEach(function(instance) {
