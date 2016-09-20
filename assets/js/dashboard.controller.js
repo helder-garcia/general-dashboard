@@ -141,7 +141,11 @@ app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', 'DiskpoolsUtil',
 		$scope.instances = instances.data;
 		instances.data.forEach(function(instance) {
 			console.log(instance.instanceName);
-			DiskpoolsUtil.diskpools.get({instanceName : instance.instanceName}, success);
+			DiskpoolsUtil.diskpools.get({
+				instanceName : instance.instanceName,
+				POOLTYPE : "PRIMARY",
+				DEVCLASS : ["DISK","FILE"]
+			}, success);
 		});
 	};
     function createChart () {
