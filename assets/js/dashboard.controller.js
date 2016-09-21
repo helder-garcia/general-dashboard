@@ -65,7 +65,7 @@ app.controller('dashboardWidget03Ctrl', ['$scope', function($scope){
 	  ];
 	}]);
 app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', 'DiskpoolsUtil', 'InstanceData', function($scope, $interval, DiskpoolsUtil, InstanceData){
-	var filter = 50;
+	var filter = 10;
 	$scope.diskpools = {
 			count : 0,
 			data : []
@@ -143,8 +143,8 @@ app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', 'DiskpoolsUtil',
 			console.log(instance.instanceName);
 			DiskpoolsUtil.diskpools.get({
 				instanceName : instance.instanceName,
-				POOLTYPE : "PRIMARY",
-				DEVCLASS : ["DISK","FILE"]
+				stgPoolType : "PRIMARY",
+				devClass : ["DISK","FILE"]
 			}, success);
 		});
 	};

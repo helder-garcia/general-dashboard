@@ -65,7 +65,7 @@
 							<th md-column md-order-by="instanceName"><span>Instance Name</span></th>
 							<th md-column md-numeric md-order-by="pctUtilized"><span>Utilized</span></th>
 							<th md-column md-numeric md-order-by="pctMig"><span>Migratable</span></th>
-							<th md-column md-numeric md-order-by="estCapacityGB"><span>Capacity</span></th>
+							<th md-column md-numeric md-order-by="estCapacityMB"><span>Capacity</span></th>
 							<th md-column><span>Migrating?</span></th>
 							<th md-column><span>Target Pool</span></th>
 						</tr>
@@ -77,7 +77,7 @@
 							<td md-cell>{{stgpool.instanceName.toUpperCase()}}</td>
 							<td md-cell>{{stgpool.pctUtilized | number: 1}}%</td>
 							<td md-cell>{{stgpool.pctMig | number: 1}}%</td>
-							<td md-cell>{{stgpool.estCapacityGB | number: 2}} GB</td>
+							<td md-cell>{{stgpool.estCapacityMB/1000 | number: 2}} GB</td>
 							<td md-cell>{{stgpool.migRunning}}</td>
 							<td md-cell>{{stgpool.nextStgPool}}</td>
 						</tr>
