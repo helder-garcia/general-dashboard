@@ -1,0 +1,18 @@
+<p>TSM Sessions</p>
+<div layout="row" layout-align="end center">
+		<div flex="20">
+			<span class="md-caption">Refresh Time: {{refreshTime}} seconds.</span>
+		</div>
+		<div flex="30">
+			<md-slider-container>
+				<md-slider flex class="md-primary" md-discrete ng-model="refreshTime" step="1" min="3" max="30" aria-label="refresh">
+			</md-slider-container>
+		</div>
+</div>
+<div layout="column">
+	<div flex>
+		<canvas id="base" class="chart-horizontal-bar" chart-data="data" chart-labels="labels" chart-options="options">
+		</canvas>
+		<md-progress-linear ng-show="loading" md-mode="indeterminate" ></md-progress-linear>
+	</div>
+</div>

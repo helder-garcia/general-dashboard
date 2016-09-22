@@ -28,6 +28,9 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/nodes/:nodeId', {
 		templateUrl : 'partials/node-detail.html',
 		controller : 'NodeDetailCtrl'
+	}).when('/sessions', {
+		templateUrl : 'assets/html/session-chart.html',
+		controller : 'sessionChartCtrl'
 	}).when('/', {
 		redirectTo : '/dashboard'
 	}).otherwise({
@@ -57,7 +60,7 @@ app.config([ '$resourceProvider', function($resourceProvider) {
 app.config(['ChartJsProvider', function (ChartJsProvider) {
     // Configure all charts
     ChartJsProvider.setOptions({
-      chartColors: ['#FF5252', '#FF8A80'],
+      chartColors: ['#803690', '#00ADF9', '#FF5252', '#FDB45C', '#949FB1', '#46BFBD', '#FF8A80', '#4D5360'],
       responsive: true
     });
     // Configure all line charts
@@ -202,5 +205,12 @@ app.factory('ActionMigrate', [ '$resource', function($resource) {
 	'use strict';
 	return {
 		migrate : $resource('http://localhost:1337/actionmigrate/')
+	};
+} ]);
+
+app.factory('SessionData', [ '$resource', function($resource) {
+	'use strict';
+	return {
+		sessions : $resource('http://localhost:1337/session/:id')
 	};
 } ]);
