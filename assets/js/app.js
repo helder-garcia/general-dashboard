@@ -197,7 +197,7 @@ app.factory('InstanceData', [ '$resource', function($resource) {
 app.factory('DiskpoolsUtil', [ '$resource', function($resource) {
 	'use strict';
 	return {
-		diskpools : $resource('http://localhost:1337/storagepool/:id')
+		diskpools : $resource('http://localhost:1337/storagepool/find/:id')
 	};
 } ]);
 

@@ -54,8 +54,11 @@ app.controller('DiskpoolListController', [ 'DiskpoolsUtil', 'InstanceData', 'Act
 			function processInstance(instances) {
 				$scope.instances = instances.data;
 				instances.data.forEach(function(instance) {
-					$scope.promise = DiskpoolsUtil.diskpools.get({
-						instanceName : instance.instanceName
+					$scope.promise = DiskpoolsUtil.diskpools.save({
+						instanceName : instance.instanceName,
+						pctUtilized : { '>': 10, '<': 20 },
+						devClass : {'-and' : [ {'!=': 'DISK' }, {'!=': 'FILE' }] },
+						debug: 1
 					}, success).$promise;
 				});
 			};
