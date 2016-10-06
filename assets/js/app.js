@@ -25,6 +25,9 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/diskpoolsutil', {
 		templateUrl : 'assets/html/diskpool-list.html',
 		controller : 'DiskpoolListController'
+	}).when('/diskpoolscratchsutil', {
+		templateUrl : 'assets/html/diskpoolscratch-list.html',
+		controller : 'DiskpoolScratchListController'
 	}).when('/nodes/:nodeId', {
 		templateUrl : 'partials/node-detail.html',
 		controller : 'NodeDetailCtrl'
@@ -198,6 +201,13 @@ app.factory('DiskpoolsUtil', [ '$resource', function($resource) {
 	'use strict';
 	return {
 		diskpools : $resource('http://localhost:1337/storagepool/find/:id')
+	};
+} ]);
+
+app.factory('DiskpoolsScratchUtil', [ '$resource', function($resource) {
+	'use strict';
+	return {
+		diskpools : $resource('http://localhost:1337/storagepool/:id')
 	};
 } ]);
 

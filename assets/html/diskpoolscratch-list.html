@@ -1,0 +1,75 @@
+<md-content layout="column" flex id="popupContainer" ng-cloak> 
+	<md-card>
+		<md-card-content>
+			<md-toolbar class="md-table-toolbar md-default" ng-hide="filter.show">
+				<div class="md-toolbar-tools">
+					<span>DISK POOLS SCRATCH</span>
+					<div flex></div>
+					<div class="md-body-1" layout="column" layout-align="center center" ng-controller="LocationFilterListController">
+						<md-select ng-model="query.selectedLocation" placeholder="{{query.selectedLocation.locationName}}" md-on-open="loadLocations()" md-on-close="getDiskpools()" style="min-width: 200px;">
+							<md-option ng-value="location" ng-repeat="location in locations">
+								<span class="md-caption">{{location.locationName}}</span>
+							</md-option>
+						</md-select>
+					</div>
+					<div class="md-body-1" layout="column" layout-align="center center" >
+						<md-select placeholder="Instances: All" ng-model="filter.instanceName" style="min-width: 200px;">
+							<md-option ng-value="!!"><span class="md-caption">Instances: All</span></md-option>
+							<md-option ng-value="instance.instanceName" ng-repeat="instance in instances">
+								<span class="md-caption">{{instance.instanceName}}</span>
+							</md-option>
+						</md-select>
+					</div>
+					<md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter_list">
+						<md-icon>filter_list</md-icon>
+					</md-button>
+					<md-button class="md-icon-button" ng-click="getDiskpools()">
+						<md-icon>refresh</md-icon>
+					</md-button>
+				</div>
+			</md-toolbar>
+			<md-toolbar class="md-table-toolbar md-default" ng-show="filter.show">
+				<div class="md-toolbar-tools flex">
+					<md-icon>search</md-icon>
+					<form class="ng-pristine ng-valid flex" name="filter.form" flex="">
+						<input class="ng-pristine ng-untouched ng-valid" ng-model="filter.search" type="text" placeholder="search" />		
+					</form>
+					<md-button class="md-icon-button" ng-click="removeFilter()">
+						<md-icon>close</md-icon>
+					</md-button>
+				</div>
+			</md-toolbar>
+			<md-table-container>
+				<table md-table md-row-select="options.rowSelection"
+					multiple="{{options.multiSelect}}" ng-model="selected"
+					md-progress="promise">
+					<thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="">
+						<tr md-row>
+							<th md-column md-order-by="stgPoolName"><span>Diskpool Name</span></th>
+							<th md-column md-order-by="instanceName"><span>Instance Name</span></th>
+							<th md-column md-order-by="numScratchUsed"><span>Scratch Used</span></th>
+							<th md-column md-numeric md-order-by="maxScratch"><span>Max Scratch</span></th>
+							<th md-column md-numeric md-order-by="diffScratch"><span>Scratch</span></th>
+						</tr>
+					</thead>
+					<tbody md-body>
+						<tr md-row md-select="stgpool" md-auto-select="options.autoSelect"
+							ng-repeat="stgpool in limited = ((filtered = (diskpools.data | filter:{ instanceName:filter.instanceName }:true | filter: filter.search | orderBy: query.order )) | limitTo: query.limit : (query.page -1) * query.limit)">
+							<td md-cell>{{stgpool.stgPoolName.toUpperCase()}}</td>
+							<td md-cell>{{stgpool.instanceName.toUpperCase()}}</td>
+							<td md-cell>{{stgpool.numScratchUsed}}</td>
+							<td md-cell>{{stgpool.maxScratch}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</md-table-container>
+			<md-table-pagination md-limit="query.limit"
+				md-limit-options="limitOptions" md-page="query.page"
+				md-total="{{filtered.length}}" md-on-paginate=""
+				md-page-select="options.pageSelect"
+				md-boundary-links="options.boundaryLinks">
+			</md-table-pagination>
+		</md-card-content>
+	</md-card>
+</md-content>
+
