@@ -1,0 +1,80 @@
+<md-content layout="column" flex id="popupContainer" ng-cloak> 
+	<md-card>
+		<md-card-content>
+			<md-toolbar class="md-table-toolbar md-default" ng-hide="filter.show">
+				<div class="md-toolbar-tools">
+					<span>APP CHECK LIST</span>
+					<div flex></div>
+					<div class="md-body-1" layout="column" layout-align="center center" ng-controller="LocationFilterListController">
+						<md-select ng-model="query.selectedLocation" placeholder="{{query.selectedLocation.locationName}}" md-on-open="loadLocations()" md-on-close="getInstancesCheck()" style="min-width: 200px;">
+							<md-option ng-value="location" ng-repeat="location in locations">
+								<span class="md-caption">{{location.locationName}}</span>
+							</md-option>
+						</md-select>
+					</div>
+					<div class="md-body-1" layout="column" layout-align="center center" >
+						<md-select placeholder="Instances: All" ng-model="filter.instanceName" style="min-width: 200px;">
+							<md-option ng-value="!!"><span class="md-caption">Instances: All</span></md-option>
+							<md-option ng-value="instance.instanceName" ng-repeat="instance in instances">
+								<span class="md-caption">{{instance.instanceName}}</span>
+							</md-option>
+						</md-select>
+					</div>
+					<md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter_list">
+						<md-icon>filter_list</md-icon>
+					</md-button>
+					<md-button class="md-icon-button" ng-click="getInstancesCheck()">
+						<md-icon>refresh</md-icon>
+					</md-button>
+				</div>
+			</md-toolbar>
+			<md-toolbar class="md-table-toolbar md-default" ng-show="filter.show">
+				<div class="md-toolbar-tools flex">
+					<md-icon>search</md-icon>
+					<form class="ng-pristine ng-valid flex" name="filter.form" flex="">
+						<input class="ng-pristine ng-untouched ng-valid" ng-model="filter.search" type="text" placeholder="search" />		
+					</form>
+					<md-button class="md-icon-button" ng-click="removeFilter()">
+						<md-icon>close</md-icon>
+					</md-button>
+				</div>
+			</md-toolbar>
+			<md-table-container>
+				<table md-table md-row-select="options.rowSelection"
+					multiple="{{options.multiSelect}}" ng-model="selected" md-progress="request.$promise">
+					<thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="">
+						<tr md-row>
+							<th md-column md-order-by="instanceName"><span>Instance Name</span></th>
+							<th md-column><span>Network</span></th>
+							<th md-column><span>Admin Registered</span></th>
+							<th md-column><span>Correct Password</span></th>
+							<th md-column><span>Admin Enabled</span></th>
+							<th md-column><span>Correct Permissions</span></th>
+						</tr>
+					</thead>
+					<tbody md-body>
+						<tr md-row md-select="instance" md-auto-select="options.autoSelect" ng-click="showLog($event, instance)"
+							ng-repeat="instance in limited = ((filtered = (instancesCheck.data | filter:{ instanceName:filter.instanceName }:true | filter: filter.search | orderBy: query.order )) | limitTo: query.limit : (query.page -1) * query.limit)">
+							<td md-cell>{{instance.instanceName.toUpperCase()}}</td>
+							<td md-cell style="text-align: center !important;"><md-icon ng-show="instance.networkStatus">done</md-icon><md-icon ng-show="!instance.networkStatus">warning</md-icon></td>
+							<td md-cell style="text-align: center !important;"><md-icon ng-show="instance.adminExists">done</md-icon><md-icon ng-show="!instance.adminExists && instance.networkStatus">warning</md-icon></td>
+							<td md-cell style="text-align: center !important;"><md-icon ng-show="instance.adminPassword">done</md-icon><md-icon ng-show="!instance.adminPassword && instance.networkStatus && instance.adminExists">warning</md-icon></td>
+							<td md-cell style="text-align: center !important;"><md-icon ng-show="instance.adminEnabled">done</md-icon><md-icon ng-show="!instance.adminEnabled && instance.networkStatus && instance.adminExists && instance.adminPassword">warning</md-icon></td></td>
+							<td md-cell style="text-align: center !important;"><md-icon ng-show="instance.permissionsStatus">done</md-icon><md-icon ng-show="!instance.permissionsStatus && instance.networkStatus && instance.adminExists && instance.adminPassword && instance.adminEnabled">warning</md-icon></td>
+						</tr>
+					</tbody>
+				</table>
+			</md-table-container>
+			<md-table-pagination md-limit="query.limit"
+				md-limit-options="limitOptions" md-page="query.page"
+				md-total="{{filtered.length}}" md-on-paginate=""
+				md-page-select="options.pageSelect"
+				md-boundary-links="options.boundaryLinks">
+			</md-table-pagination>
+		</md-card-content>
+		<md-card-actions layout="row" layout-align="end center">
+			<md-button class="md-primary md-hue-2" ng-click="showCredentialsDialog($event)" ng-disabled="selected.length == 0">Migrate <span ng-if="selected.length">{{selected.length}} SELECTED ITEM(S)</span></md-button>
+		</md-card-actions>
+	</md-card>
+</md-content>
+

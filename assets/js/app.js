@@ -34,6 +34,9 @@ app.config([ '$routeProvider', function($routeProvider) {
 	}).when('/sessions', {
 		templateUrl : 'assets/html/session-chart.html',
 		controller : 'sessionChartCtrl'
+	}).when('/appchecklist', {
+		templateUrl : 'assets/html/appchecklist.html',
+		controller : 'appChecklistController'
 	}).when('/', {
 		redirectTo : '/dashboard'
 	}).otherwise({
@@ -222,5 +225,12 @@ app.factory('SessionData', [ '$resource', function($resource) {
 	'use strict';
 	return {
 		sessions : $resource('http://localhost:1337/session/:id')
+	};
+} ]);
+
+app.factory('AppCheckListData', [ '$resource', function($resource) {
+	'use strict';
+	return {
+		instancesCheck : $resource('http://localhost:1337/appCheckList/find/:id',{}, {}, {cancellable: true})
 	};
 } ]);
