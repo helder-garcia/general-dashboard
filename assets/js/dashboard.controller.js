@@ -30,7 +30,7 @@ app.controller('dashboardWidget01Ctrl', ['$scope', 'driveData', '$interval', fun
         }, function (status) {
         });
     };
-    $interval(function(){
+    var promise = $interval(function(){
     	$scope.get();
     }, 10000);
 	  //$scope.labels = ["A", "B"];
@@ -42,6 +42,9 @@ app.controller('dashboardWidget01Ctrl', ['$scope', 'driveData', '$interval', fun
 	  $scope.onClick = function (points, evt) {
 	    console.log(points, evt);
 	  }; 
+	  $scope.$on('$routeChangeStart', function(next, current) {
+		  $interval.cancel(promise);
+	  });
 	}]);
 app.controller('dashboardWidget02Ctrl', ['InstanceData', '$scope', function(InstanceData, $scope){
 	function success(instances) {
@@ -73,70 +76,73 @@ app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', 'DiskpoolsUtil',
 	$scope.instances = [];
 	$scope.query = {
 			selectedLocation : { id: 1, locationName: 'Brasília', selectValue: 'BSA' }
-		};
-    $scope.options = {
-    		title: {
-    			display: true,
-    			text: 'Disk Pool Utilization'
-    		},
-            legend: {
-                display: false
-            },
-            tooltips: {
-            	enabled: true,
-            	mode: 'single',
-                custom: function(tooltip) {
-                    if (!tooltip.body) {
-                        return;
-                    }
-                    var newLabel = "";
-                    var myRegex = new RegExp(/^(.*: )\(-*\d+\,\s-*\d+,\s(\d+|\d+\.\d+)\)$/);
-                    var parsedLine = myRegex.exec(tooltip.body[0].lines[0]);
-                    if (parsedLine === null) {
-                    	newLabel = "Fetch error";
-                    	console.log("line ", tooltip.body[0].lines[0]);
-                    } else {
-                    	newLabel = parsedLine[1] + parsedLine[2] + '%';           	
-                    }
-                    tooltip.body[0].lines[0] = newLabel;
-                    //console.log("body ", tooltip.body[0].lines[0]);
-                }
-            },
-            scales: {
-    			xAxes: [{
-    				display: false,
-    				ticks: {
-    					max: 125,
-    					min: -125,
-    					stepSize: 10
-    				}
-    			}],
-    			yAxes: [{
-    				display: false,
-    				ticks: {
-    					max: 125,
-    					min: -125,
-    					stepSize: 10
-    				}
-    			}]
-    		}
-    };
+	};
+	$scope.options = {
+			title: {
+				display: true,
+				text: 'Disk Pool Utilization'
+			},
+			legend: {
+				display: false
+			},
+			tooltips: {
+				enabled: true,
+				mode: 'single',
+				custom: function(tooltip) {
+					if (!tooltip.body) {
+						return;
+					}
+					var newLabel = "";
+					var myRegex = new RegExp(/^(.*: )\(-*\d+\,\s-*\d+,\s(\d+|\d+\.\d+)\)$/);
+					var parsedLine = myRegex.exec(tooltip.body[0].lines[0]);
+					if (parsedLine === null) {
+						newLabel = "Fetch error";
+						console.log("line ", tooltip.body[0].lines[0]);
+					} else {
+						newLabel = parsedLine[1] + parsedLine[2] + '%';           	
+					}
+					tooltip.body[0].lines[0] = newLabel;
+					//console.log("body ", tooltip.body[0].lines[0]);
+				}
+			},
+			scales: {
+				xAxes: [{
+					display: false,
+					ticks: {
+						max: 125,
+						min: -125,
+						stepSize: 10
+					}
+				}],
+				yAxes: [{
+					display: false,
+					ticks: {
+						max: 125,
+						min: -125,
+						stepSize: 10
+					}
+				}]
+			}
+	};
 	function success(diskpools) {
 		//$scope.diskpools.data = $scope.diskpools.data.concat(diskpools.data);
 		//$scope.diskpools.count = $scope.diskpools.data.length;
-	      for (var i = 0; i < diskpools.count; i++) {
-	    	  if(diskpools.data[i].pctUtilized >= filter) {
-		          $scope.series.push(diskpools.data[i].instanceName + '|' + diskpools.data[i].stgPoolName);
-		          $scope.data.push([{
-		            x: randomScalingFactor(),
-		            y: randomScalingFactor(),
-		            r: diskpools.data[i].pctUtilized
-		          }]);
-	    	  }
-	        }
+		for (var i = 0; i < diskpools.count; i++) {
+			if(diskpools.data[i].pctUtilized >= filter) {
+				$scope.series.push(diskpools.data[i].instanceName + '|' + diskpools.data[i].stgPoolName);
+				$scope.data.push([{
+					x: randomScalingFactor(),
+					y: randomScalingFactor(),
+					r: diskpools.data[i].pctUtilized
+				}]);
+			}
+		}
 	};
-    createChart();
-    $interval(createChart, 200000);
+	createChart();
+	//var promisse = $interval(createChart, 10000);
+    var promise = $interval(function(){
+    	createChart();
+    }, 10000);
 	function processInstance(instances) {
 		$scope.instances = instances.data;
 		instances.data.forEach(function(instance) {
@@ -148,24 +154,27 @@ app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', 'DiskpoolsUtil',
 			}, success);
 		});
 	};
-    function createChart () {
-    	$scope.diskpools.data = [];
-    	$scope.series = [];
-    	$scope.data = [];
+	function createChart () {
+		$scope.diskpools.data = [];
+		$scope.series = [];
+		$scope.data = [];
 		InstanceData.instances.get({
 			active : 1,
 			hostingLocation : $scope.query.selectedLocation.selectValue
 		}, processInstance);
-    };
+	};
 
-    function randomScalingFactor () {
-      return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
-    };
+	function randomScalingFactor () {
+		return (Math.random() > 0.5 ? 1.0 : -1.0) * Math.round(Math.random() * 100);
+	};
 
-    function randomRadius () {
-      return Math.abs(randomScalingFactor()) / 4;
-    }
-    }]);
+	function randomRadius () {
+		return Math.abs(randomScalingFactor()) / 4;
+	};
+	$scope.$on('$routeChangeStart', function(next, current) {
+		$interval.cancel(promise);
+	});
+}]);
 app.controller('dashboardWidget01Copy', ['$scope', function($scope){
 	  $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
 	  $scope.series = ['Series A', 'Series B'];

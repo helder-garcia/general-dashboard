@@ -9,7 +9,7 @@ app.controller('sessionChartCtrl', ['$scope', 'SessionData', 'InstanceData', '$i
 	$scope.series = ['Series A'];
 	$scope.loading = true;
 	$scope.determinateValue = 0;
-	$scope.refreshTime = 10;
+	$scope.refreshTime = 30;
 	$scope.query = {
 			selectedLocation : { id: 1, locationName: 'Brasília', selectValue: 'BSA' }
 	};
