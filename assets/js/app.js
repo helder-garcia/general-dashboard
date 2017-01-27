@@ -96,14 +96,14 @@ app.controller('AppCtrl', [ '$scope', '$mdSidenav',
 				$mdSidenav(menuId).toggle();
 			};
 }]);
-
+/*
 app.factory('nodeData', function($http, $q) {
 	return {
 		ajaxItems : function() {
 			var deferred = $q.defer();
 			setTimeout(function() {
-				$http.get("http://dfcdsrvv3022:1337/Node")
-				// $http.get("http://localhost:1337/Node")
+				//$http.get("http://dfcdsrvv3022:1337/Node")
+				$http.get("http://localhost:1337/Node")
 				.success(function(data, status, headers, config) {
 					deferred.resolve(data);
 				}).error(function(data, status, headers, config) {
@@ -114,6 +114,8 @@ app.factory('nodeData', function($http, $q) {
 		}
 	}
 });
+*/
+
 app.factory('driveData', function($http, $q) {
 	return {
 		ajaxItems : function() {
@@ -131,51 +133,18 @@ app.factory('driveData', function($http, $q) {
 		}
 	}
 });
-// app.factory('instanceData', function ($http, $q) {
-// return {
-// instances: function () {
-// var deferred = $q.defer();
-// setTimeout(function() {
-// $http.get("http://wstsm.supcd.serpronet.serpro:1337/Instance")
-// $http.get("http://localhost:1337/Instance")
-// .success(function (data, status, headers, config) {
-// deferred.resolve(data);
-// }).error(function (data, status, headers, config) {
-// deferred.reject(data);
-// });
-// }, 1000);
-// return deferred.promise;
-// }
-// }
-// });
-
-// app.factory('Instance', function ($resource, $timeout, $q) {
-// var resource =
-// $resource('http://wstsm.supcd.serpronet.serpro:1337/Instance/:id', null, {
-// 'update': { method: 'PUT'},
-// 'query': { method:'GET', isArray:false}
-// });
-// return resource;
-// });
 
 app.factory('LibScratch', function($resource, $timeout, $q) {
-	// var resource =
-	// $resource('http://wstsm.supcd.serpronet.serpro:1337/libscratch/:id',
-	// null, {
-	/*var resource = $resource('http://localhost:1337/libscratch/:id', null, {
-		'update' : {
-			method : 'PUT'
-		},
-		'query' : {
-			method : 'GET',
-			isArray : false
-		}
-	});
-	return resource;*/
-	
 	'use strict';
 	return {
 		scratches : $resource('http://localhost:1337/libscratch/:id')
+	};
+});
+
+app.factory('NodeData', function($resource, $timeout, $q) {
+	'use strict';
+	return {
+		nodes : $resource('http://localhost:1337/node/find/:id')
 	};
 });
 

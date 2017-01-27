@@ -116,33 +116,4 @@ app.controller('appChecklistController', [ 'AppCheckListData', 'InstanceData', '
 				        .targetEvent(ev)
 				    );
 				  };
-			$scope.showCredentialsDialog = function($event) {
-				$mdDialog.show({
-					scope: $scope,
-					preserveScope: true,
-					templateUrl: 'assets/html/login-dialog.html',
-					controller: function DialogController($scope, $mdDialog) {
-						//$scope.items = items;
-						$scope.closeDialog = function() {
-							$mdDialog.hide();
-						};
-						$scope.handleSubmit = function() {
-							$mdDialog.hide();
-							$scope.selected.forEach(function(pool) {
-								console.log(pool.stgPoolName + ' - ' + pool.instanceName + ' - ' + $scope.username + ':' + $scope.password);
-								$scope.apromise = ActionMigrate.migrate.get({
-									instanceName : pool.instanceName,
-									stgPoolName : pool.stgPoolName,
-									username : $scope.username,
-									password : $scope.password
-								}, function(){
-										$scope.getDiskpools();
-									}).$apromise;
-							});
-						}
-					}
-				});
-
-			}
-
 		} ]);

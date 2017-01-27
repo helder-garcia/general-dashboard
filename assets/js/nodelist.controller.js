@@ -1,72 +1,114 @@
 var app = angular.module('StarterApp');
-app.controller('NodeListController', [
-        'nodeData',
-		'$http',
-		'$q',
-		'$timeout',
-		'$scope',
-		function(nodeData, $http, $q, $timeout, $scope) {
+app.controller('NodeListController', [ 'NodeData', 'InstanceData', '$scope', '$mdDialog',
+		function(NodeData, InstanceData, $scope, $mdDialog) {
 			'use strict';
+			var bookmark;
+			
+			$scope.paginationTotalItems = 1;
 			$scope.selected = [];
+			$scope.username = null;
+			$scope.password = null;
+			$scope.instances = [];
 			$scope.query = {
+				instanceName : '',
+				selectedLocation : { id: 1, locationName: 'Brasília', selectValue: 'BSA' },
 				order : 'nodeName',
-				limit : 5,
+				limit : 10,
 				page : 1
 			};
-			$scope.columns = [ {
-				name : 'nodeName',
-				orderBy : 'nodeName'
-			}, {
-				name : 'domainName',
-				orderBy : 'domainName'
-			}, {
-				name : 'archDelete'
-			}, {
-				name : 'backDelete'
-			}, {
-				name : 'isLocked'
-			}, {
-				name : 'lastAccTime'
-			}, {
-				name : 'maxNummp',
-				numeric : true,
-				orderBy : 'maxNummp'
-			} ];
-		    $scope.get = function () {
-		        $scope.items = nodeData.ajaxItems();
-		        //the model returns a promise and THEN items
-		        $scope.items.then(function (items) {
-		            $scope.nodes = items;
-		        }, function (status) {
-		        });
-		    };
-		    $scope.get();
+			$scope.filter = {
+				options : {
+					debounce : 500
+				}
+			};
+			$scope.nodes = {
+				count : 0,
+				data : []
+			};
+			
+			$scope.limitOptions = [ 5, 10, 15 ];
+			$scope.options = {
+				rowSelection : true,
+				multiSelect : true,
+				autoSelect : false,
+				decapitate : false,
+				largeEditDialog : false,
+				boundaryLinks : true,
+				limitSelect : true,
+				pageSelect : false,
+				disableRow : true
+			};
+			$scope.removeFilter = function() {
+				$scope.filter.show = false;
+				$scope.filter.search = '';
+				if ($scope.filter.form.$dirty) {
+					$scope.filter.form.$setPristine();
+				}
+			};
 
-			$scope.onpagechange = function(page, limit) {
-				console.log('Scope Page: ' + $scope.query.page
-						+ ' Scope Limit: ' + $scope.query.limit);
-				console.log('Page: ' + page + ' Limit: ' + limit);
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.resolve();
-				}, 2000);
-				return deferred.promise;
+			// $scope.nodes = NotAccessedNodes.query();
+			function success(nodes) {
+				$scope.nodes.data = $scope.nodes.data.concat(nodes.data);
+				$scope.nodes.count = $scope.nodes.data.length;
 			};
-			$scope.loadStuff = function() {
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.reject();
-				}, 2000);
-				$scope.deferred = deferred.promise;
+			function processInstance(instances) {
+				$scope.instances = instances.data;
+				instances.data.forEach(function(instance) {
+					$scope.promise = NodeData.nodes.get({
+						instanceName : instance.instanceName
+					}, success).$promise;
+				});
 			};
-			$scope.onorderchange = function(order) {
-				console.log('Scope Order: ' + $scope.query.order);
-				console.log('Order: ' + order);
-				var deferred = $q.defer();
-				$timeout(function() {
-					deferred.resolve();
-				}, 2000);
-				return deferred.promise;
+			$scope.getNodes = function() {
+				$scope.nodes.data = [];
+				$scope.selected = [];
+				$scope.ipromise = InstanceData.instances.get({
+					active : 1,
+					hostingLocation : $scope.query.selectedLocation.selectValue
+				}, processInstance).$ipromise;
 			};
+			$scope.getNodes();
+			$scope.$watch('filter.search', function(newValue, oldValue) {
+				if (!oldValue) {
+					bookmark = $scope.query.page;
+				}
+
+				if (newValue !== oldValue) {
+					$scope.query.page = 1;
+				}
+
+				if (!newValue) {
+					$scope.query.page = bookmark;
+				}
+			});
+			$scope.showCredentialsDialog = function($event) {
+				$mdDialog.show({
+					scope: $scope,
+					preserveScope: true,
+					templateUrl: 'assets/html/login-dialog.html',
+					controller: function DialogController($scope, $mdDialog) {
+						//$scope.items = items;
+						$scope.closeDialog = function() {
+							$mdDialog.hide();
+						};
+						$scope.handleSubmit = function() {
+							$mdDialog.hide();
+							$scope.selected.forEach(function(pool) {
+								console.log(pool.stgPoolName + ' - ' + pool.instanceName + ' - ' + $scope.username + ':' + $scope.password);
+								$scope.apromise = ActionMigrate.migrate.get({
+									instanceName : pool.instanceName,
+									stgPoolName : pool.stgPoolName,
+									username : $scope.username,
+									password : $scope.password
+								}, function(){
+										$scope.getDiskpools();
+									}).$apromise;
+							});
+						}
+					}
+				// controllerAs: 'vm'
+				});
+
+			}
 
 		} ]);

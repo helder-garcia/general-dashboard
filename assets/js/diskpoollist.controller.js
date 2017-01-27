@@ -81,8 +81,6 @@ app.controller('DiskpoolListController', [ 'DiskpoolsUtil', 'InstanceData', 'Act
 				if (!newValue) {
 					$scope.query.page = bookmark;
 				}
-
-				// $scope.getNodes();
 			});
 			$scope.showCredentialsDialog = function($event) {
 				$mdDialog.show({
