@@ -7,8 +7,12 @@ app.controller('dashboardWidget01Ctrl', ['$scope', 'driveData', '$interval', fun
 	var maximum = 10;
 	$scope.options = {
 			animation: false,
-			datasetStroke : true
-			};
+			datasetStroke : true,
+			title: {
+				display: true,
+				text: 'Tape Drives - Loaded x Empty'
+			}
+	};
 	$scope.data = [];
 	$scope.data.push([]);
 	$scope.data.push([]);	
@@ -32,13 +36,7 @@ app.controller('dashboardWidget01Ctrl', ['$scope', 'driveData', '$interval', fun
     };
     var promise = $interval(function(){
     	$scope.get();
-    }, 10000);
-	  //$scope.labels = ["A", "B"];
-	  
-	  //$scope.data = [
-	    //[65],
-	   // [28]
-	 // ];
+    }, 20000);
 	  $scope.onClick = function (points, evt) {
 	    console.log(points, evt);
 	  }; 
@@ -47,6 +45,12 @@ app.controller('dashboardWidget01Ctrl', ['$scope', 'driveData', '$interval', fun
 	  });
 	}]);
 app.controller('dashboardWidget02Ctrl', ['InstanceData', '$scope', function(InstanceData, $scope){
+	$scope.options = {
+		title: {
+			display: true,
+			text: 'Nodes per Instance'
+		}
+	};
 	function success(instances) {
 		var instancesArray = instances.data;
 		$scope.labels = instancesArray.map(function(a) {return a.instanceName;});
@@ -56,8 +60,6 @@ app.controller('dashboardWidget02Ctrl', ['InstanceData', '$scope', function(Inst
 		$scope.promise = InstanceData.instances.get({active: 1}, success).$promise;
 	};
 	$scope.getInstances();
-    //$scope.labels = ["Download Sales", "In-Store Sales", "Mail-Order Sales", "Tele Sales", "Corporate Sales"];
-    //$scope.data = [300, 500, 100, 40, 120];
 	}]);
 app.controller('dashboardWidget03Ctrl', ['$scope', function($scope){
 	 $scope.labels = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
@@ -102,7 +104,6 @@ app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', 'DiskpoolsUtil',
 						newLabel = parsedLine[1] + parsedLine[2] + '%';           	
 					}
 					tooltip.body[0].lines[0] = newLabel;
-					//console.log("body ", tooltip.body[0].lines[0]);
 				}
 			},
 			scales: {
@@ -125,8 +126,6 @@ app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', 'DiskpoolsUtil',
 			}
 	};
 	function success(diskpools) {
-		//$scope.diskpools.data = $scope.diskpools.data.concat(diskpools.data);
-		//$scope.diskpools.count = $scope.diskpools.data.length;
 		for (var i = 0; i < diskpools.count; i++) {
 			if(diskpools.data[i].pctUtilized >= filter) {
 				$scope.series.push(diskpools.data[i].instanceName + '|' + diskpools.data[i].stgPoolName);
@@ -139,10 +138,10 @@ app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', 'DiskpoolsUtil',
 		}
 	};
 	createChart();
-	//var promisse = $interval(createChart, 10000);
+
     var promise = $interval(function(){
     	createChart();
-    }, 10000);
+    }, 60000);
 	function processInstance(instances) {
 		$scope.instances = instances.data;
 		instances.data.forEach(function(instance) {

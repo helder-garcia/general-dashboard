@@ -1,16 +1,13 @@
-<p>Dashboard content</p>
+<p>Dashboard</p>
 
 <div layout="column">
 	<div layout="row" layout-sm="column" layout-padding="10px" layout-wrap>
 		<div flex ng-controller="dashboardWidget01Ctrl">
-			<canvas id="line" class="chart chart-line" chart-data="data"
-				chart-labels="labels" chart-legend="true" chart-series="series"
-				chart-click="onClick" options="options">
+			<canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-legend="true" chart-series="series" chart-click="onClick" chart-options="options">
 		</canvas>
 		</div>
 		<div flex ng-controller="dashboardWidget02Ctrl">
-			<canvas id="polar-area" class="chart chart-polar-area"
-				chart-data="data" chart-labels="labels">
+			<canvas id="polar-area" class="chart chart-polar-area" chart-data="data" chart-labels="labels" chart-options="options">
 		</canvas>
 		</div>
 	</div>
