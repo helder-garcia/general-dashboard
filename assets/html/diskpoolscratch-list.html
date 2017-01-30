@@ -3,7 +3,7 @@
 		<md-card-content>
 			<md-toolbar class="md-table-toolbar md-default" ng-hide="filter.show">
 				<div class="md-toolbar-tools">
-					<span>DISK POOLS SCRATCH</span>
+					<span>SEQUENTIAL POOLS SCRATCHES</span>
 					<div flex></div>
 					<div class="md-body-1" layout="column" layout-align="center center" ng-controller="LocationFilterListController">
 						<md-select ng-model="query.selectedLocation" placeholder="{{query.selectedLocation.locationName}}" md-on-open="loadLocations()" md-on-close="getDiskpools()" style="min-width: 200px;">
@@ -49,7 +49,7 @@
 							<th md-column md-order-by="instanceName"><span>Instance Name</span></th>
 							<th md-column md-order-by="numScratchUsed"><span>Scratch Used</span></th>
 							<th md-column md-numeric md-order-by="maxScratch"><span>Max Scratch</span></th>
-							<th md-column md-numeric md-order-by="diffScratch"><span>Scratch</span></th>
+							<th md-column md-numeric><span>Scratches Left</span></th>
 						</tr>
 					</thead>
 					<tbody md-body>
@@ -59,6 +59,7 @@
 							<td md-cell>{{stgpool.instanceName.toUpperCase()}}</td>
 							<td md-cell>{{stgpool.numScratchUsed}}</td>
 							<td md-cell>{{stgpool.maxScratch}}</td>
+							<td md-cell>{{stgpool.maxScratch - stgpool.numScratchUsed > 0 ? stgpool.maxScratch - stgpool.numScratchUsed : 0}}</td>
 						</tr>
 					</tbody>
 				</table>

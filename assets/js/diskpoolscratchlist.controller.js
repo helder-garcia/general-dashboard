@@ -12,7 +12,7 @@ app.controller('DiskpoolScratchListController', [ 'DiskpoolsUtil', 'InstanceData
 			$scope.query = {
 				instanceName : '',
 				selectedLocation : { id: 1, locationName: 'Brasília', selectValue: 'BSA' },
-				order : '-stgPoolName',
+				order : '-numScratchUsed',
 				limit : 10,
 				page : 1
 			};
@@ -54,11 +54,11 @@ app.controller('DiskpoolScratchListController', [ 'DiskpoolsUtil', 'InstanceData
 			function processInstance(instances) {
 				$scope.instances = instances.data;
 				instances.data.forEach(function(instance) {
-					$scope.promise = DiskpoolsUtil.diskpools.get({
+					$scope.promise = DiskpoolsUtil.diskpools.save({
 						instanceName : instance.instanceName,
-						//devClass : {"<>" : "DISK"},
-						devClass :{"<>":"FILE"},
-						debug:"1"
+						devClass : {"<>" : "DISK"}
+						//devClass :{"<>":"FILE"},
+						//debug: "1"
 					}, success).$promise;
 				});
 			};
