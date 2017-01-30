@@ -54,6 +54,7 @@
 					<thead ng-if="!options.decapitate" md-head md-order="query.order" md-on-reorder="">
 						<tr md-row>
 							<th md-column md-order-by="nodeName"><span>Node Name</span></th>
+							<th md-column><span>Instance</span></th>
 							<th md-column md-order-by="domainName"><span>Domain</span></th>
 							<th md-column><span>archDelete</span></th>
 							<th md-column><span>backDelete</span></th>
@@ -65,6 +66,7 @@
 						<tr md-row md-select="stgpool" md-auto-select="options.autoSelect" ng-disabled="node.isLocked == 0"
 							ng-repeat="node in limited = ((filtered = (nodes.data | filter:{ instanceName:filter.instanceName }:true | filter:{ isLocked:filter.isLocked }:true |filter: filter.search | orderBy: query.order )) | limitTo: query.limit : (query.page -1) * query.limit)">
 							<td md-cell>{{node.nodeName.toUpperCase()}}</td>
+							<td md-cell>{{node.instanceName.toUpperCase()}}</td>
 							<td md-cell>{{node.domainName.toUpperCase()}}</td>
 							<td md-cell>{{node.archDelete}}</td>
 							<td md-cell>{{node.backDelete}}</td>
