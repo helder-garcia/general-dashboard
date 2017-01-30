@@ -49,7 +49,7 @@
 							<th md-column md-order-by="instanceName"><span>Instance Name</span></th>
 							<th md-column md-order-by="numScratchUsed"><span>Scratch Used</span></th>
 							<th md-column md-numeric md-order-by="maxScratch"><span>Max Scratch</span></th>
-							<th md-column md-numeric><span>Scratches Left</span></th>
+							<th md-column md-numeric md-order-by="scratchLeft"><span>Scratches Left</span></th>
 						</tr>
 					</thead>
 					<tbody md-body>
@@ -59,7 +59,7 @@
 							<td md-cell>{{stgpool.instanceName.toUpperCase()}}</td>
 							<td md-cell>{{stgpool.numScratchUsed}}</td>
 							<td md-cell>{{stgpool.maxScratch}}</td>
-							<td md-cell>{{stgpool.maxScratch - stgpool.numScratchUsed > 0 ? stgpool.maxScratch - stgpool.numScratchUsed : 0}}</td>
+							<td md-cell>{{stgpool.scratchLeft > 0 ? stgpool.scratchLeft : 0}}</td>
 						</tr>
 					</tbody>
 				</table>
