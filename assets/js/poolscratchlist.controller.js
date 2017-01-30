@@ -1,6 +1,6 @@
 var app = angular.module('StarterApp');
-app.controller('DiskpoolScratchListController', [ 'DiskpoolsUtil', 'InstanceData', 'ActionMigrate', '$scope', '$mdDialog',
-		function(DiskpoolsUtil, InstanceData, ActionMigrate, $scope, $mdDialog) {
+app.controller('PoolScratchListController', [ 'StoragepoolsUtil', 'InstanceData', 'ActionMigrate', '$scope', '$mdDialog',
+		function(StoragepoolsUtil, InstanceData, ActionMigrate, $scope, $mdDialog) {
 			'use strict';
 			var bookmark;
 			
@@ -21,7 +21,7 @@ app.controller('DiskpoolScratchListController', [ 'DiskpoolsUtil', 'InstanceData
 					debounce : 500
 				}
 			};
-			$scope.diskpools = {
+			$scope.tapepools = {
 				count : 0,
 				data : []
 			};
@@ -46,31 +46,28 @@ app.controller('DiskpoolScratchListController', [ 'DiskpoolsUtil', 'InstanceData
 				}
 			};
 
-			// $scope.nodes = NotAccessedNodes.query();
-			function success(diskpools) {
-				$scope.diskpools.data = $scope.diskpools.data.concat(diskpools.data);
-				$scope.diskpools.count = $scope.diskpools.data.length;
+			function success(tapepools) {
+				$scope.tapepools.data = $scope.tapepools.data.concat(tapepools.data);
+				$scope.tapepools.count = $scope.tapepools.data.length;
 			};
 			function processInstance(instances) {
 				$scope.instances = instances.data;
 				instances.data.forEach(function(instance) {
-					$scope.promise = DiskpoolsUtil.diskpools.save({
+					$scope.promise = StoragepoolsUtil.storagepools.save({
 						instanceName : instance.instanceName,
 						devClass : {"<>" : "DISK"}
-						//devClass :{"<>":"FILE"},
-						//debug: "1"
 					}, success).$promise;
 				});
 			};
-			$scope.getDiskpools = function() {
-				$scope.diskpools.data = [];
+			$scope.getTapepools = function() {
+				$scope.tapepools.data = [];
 				$scope.selected = [];
 				$scope.ipromise = InstanceData.instances.get({
 					active : 1,
 					hostingLocation : $scope.query.selectedLocation.selectValue
 				}, processInstance).$ipromise;
 			};
-			$scope.getDiskpools();
+			$scope.getTapepools();
 			$scope.$watch('filter.search', function(newValue, oldValue) {
 				if (!oldValue) {
 					bookmark = $scope.query.page;
@@ -83,8 +80,6 @@ app.controller('DiskpoolScratchListController', [ 'DiskpoolsUtil', 'InstanceData
 				if (!newValue) {
 					$scope.query.page = bookmark;
 				}
-
-				// $scope.getNodes();
 			});
 			$scope.showCredentialsDialog = function($event) {
 				$mdDialog.show({
@@ -106,7 +101,7 @@ app.controller('DiskpoolScratchListController', [ 'DiskpoolsUtil', 'InstanceData
 									username : $scope.username,
 									password : $scope.password
 								}, function(){
-										$scope.getDiskpools();
+										$scope.getTapepools();
 									}).$apromise;
 							});
 						}

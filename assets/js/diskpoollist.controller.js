@@ -1,6 +1,6 @@
 var app = angular.module('StarterApp');
-app.controller('DiskpoolListController', [ 'DiskpoolsUtil', 'InstanceData', 'ActionMigrate', '$scope', '$mdDialog',
-		function(DiskpoolsUtil, InstanceData, ActionMigrate, $scope, $mdDialog) {
+app.controller('DiskpoolListController', [ 'StoragepoolsUtil', 'InstanceData', 'ActionMigrate', '$scope', '$mdDialog',
+		function(StoragepoolsUtil, InstanceData, ActionMigrate, $scope, $mdDialog) {
 			'use strict';
 			var bookmark;
 			
@@ -54,7 +54,7 @@ app.controller('DiskpoolListController', [ 'DiskpoolsUtil', 'InstanceData', 'Act
 			function processInstance(instances) {
 				$scope.instances = instances.data;
 				instances.data.forEach(function(instance) {
-					$scope.promise = DiskpoolsUtil.diskpools.save({
+					$scope.promise = StoragepoolsUtil.storagepools.save({
 						instanceName : instance.instanceName,
 						devClass : [ 'DISK','FILE' ]
 					}, success).$promise;

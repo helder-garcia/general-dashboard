@@ -6,7 +6,7 @@
 					<span>SEQUENTIAL POOLS SCRATCHES</span>
 					<div flex></div>
 					<div class="md-body-1" layout="column" layout-align="center center" ng-controller="LocationFilterListController">
-						<md-select ng-model="query.selectedLocation" placeholder="{{query.selectedLocation.locationName}}" md-on-open="loadLocations()" md-on-close="getDiskpools()" style="min-width: 200px;">
+						<md-select ng-model="query.selectedLocation" placeholder="{{query.selectedLocation.locationName}}" md-on-open="loadLocations()" md-on-close="getTapepools()" style="min-width: 200px;">
 							<md-option ng-value="location" ng-repeat="location in locations">
 								<span class="md-caption">{{location.locationName}}</span>
 							</md-option>
@@ -23,7 +23,7 @@
 					<md-button class="md-icon-button" ng-click="filter.show = true" aria-label="filter_list">
 						<md-icon>filter_list</md-icon>
 					</md-button>
-					<md-button class="md-icon-button" ng-click="getDiskpools()">
+					<md-button class="md-icon-button" ng-click="getTapepools()">
 						<md-icon>refresh</md-icon>
 					</md-button>
 				</div>
@@ -54,7 +54,7 @@
 					</thead>
 					<tbody md-body>
 						<tr md-row md-select="stgpool" md-auto-select="options.autoSelect"
-							ng-repeat="stgpool in limited = ((filtered = (diskpools.data | filter:{ instanceName:filter.instanceName }:true | filter: filter.search | orderBy: query.order )) | limitTo: query.limit : (query.page -1) * query.limit)">
+							ng-repeat="stgpool in limited = ((filtered = (tapepools.data | filter:{ instanceName:filter.instanceName }:true | filter: filter.search | orderBy: query.order )) | limitTo: query.limit : (query.page -1) * query.limit)">
 							<td md-cell>{{stgpool.stgPoolName.toUpperCase()}}</td>
 							<td md-cell>{{stgpool.instanceName.toUpperCase()}}</td>
 							<td md-cell>{{stgpool.numScratchUsed}}</td>

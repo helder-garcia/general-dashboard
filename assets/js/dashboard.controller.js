@@ -38,7 +38,7 @@ app.controller('dashboardWidget01Ctrl', ['$scope', 'driveData', '$interval', fun
     	$scope.get();
     }, 20000);
 	  $scope.onClick = function (points, evt) {
-	    console.log(points, evt);
+	    //console.log(points, evt);
 	  }; 
 	  $scope.$on('$routeChangeStart', function(next, current) {
 		  $interval.cancel(promise);
@@ -69,7 +69,7 @@ app.controller('dashboardWidget03Ctrl', ['$scope', function($scope){
 	    [28, 48, 40, 19, 86, 27, 90]
 	  ];
 	}]);
-app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', 'DiskpoolsUtil', 'InstanceData', function($scope, $interval, DiskpoolsUtil, InstanceData){
+app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', 'StoragepoolsUtil', 'InstanceData', function($scope, $interval, StoragepoolsUtil, InstanceData){
 	var filter = 10;
 	$scope.diskpools = {
 			count : 0,
@@ -145,8 +145,7 @@ app.controller('dashboardWidget04Ctrl', ['$scope', '$interval', 'DiskpoolsUtil',
 	function processInstance(instances) {
 		$scope.instances = instances.data;
 		instances.data.forEach(function(instance) {
-			console.log(instance.instanceName);
-			DiskpoolsUtil.diskpools.get({
+			StoragepoolsUtil.storagepools.get({
 				instanceName : instance.instanceName,
 				stgPoolType : "PRIMARY",
 				devClass : ["DISK","FILE"]
